@@ -89,7 +89,7 @@ predicted SV breakpoint region.
 In order to assess the performance of our framework, we compared our discovery
 accuracy using paired-end alignments, split-read alignments, or both to 
 three widely used SV discovery packages: Hydra \cite{Quinlan2010},
-GASV \cite{Raphael2009}, and GASVPro \cite{Sindi2012}. We created a simulated 
+GASVPro \cite{Sindi2012} and DELLY \cite{Rausch2012b}. We created a simulated 
 experimental genome by simulating 1000 deletions, duplications, insertions, 
 and inversions (4000 events total) throughout the entire human genome
 (\textbf{is that correct?}) using SVSIM (Faust et al, \emph{in preparation}). 
@@ -132,18 +132,20 @@ SVs are much more common than larger events \cite{mills2011}.
 
 
 \subsection{False discovery rate}
-Improved SV dicovery sensitivity is crucial for comprehensive characterizations
+Improved SV discovery sensitivity is crucial for comprehensive characterizations
 of the full specturm of genetic variation in human genomes, yet high
 sensitivity at the cost of an inflated false discovery rate (FDR) is
 undesirable given the time and cost associated with pursing
 the putative biological impact of spurious variation.
 
 We compared the FDR for each SV discovery tool using the same simulated
-SVs as described above (Table 1). With the exception of DELLY (\textbf{are we sure about
-these results???}), the false discovery rate for all tools ranged from 0.0\%
-to 24.1\%. While UNNAMED's FDR was slightly higher than GASVPRO for deletions,
-UNNAMED's FDR was consistently low (0.0\% - 4.6\%) across all SV types and
-coverage levels. In contrast, GASVPRO had much higher FDRs for inversions and
+SVs as described above (Table 1).The false discovery rate for all tools ranged 
+from 0.0\% to 24.1\%. Overall, DELLY had the lowest FDR across all SV types
+and genome coverage levels, yet the conservative calling comes at the cost of
+reduced sensitivity compared to the other tools. While UNNAMED's FDR was 
+slightly higher than GASVPRO for deletions, its FDR was consistently 
+low (0.0\% - 4.6\%) across all SV types and coverage levels. In contrast, 
+GASVPRO had much higher FDRs for inversions and
 the FDR increased at lower coverage levels.  HYDRA had consistent FDRs across
 SV types and coverage levels (0.0\% to 8.9\%), yet these rates were always 
 higher than the analagous UNNAMED FDRs. These results indicate that UNNAMED's
@@ -211,7 +213,6 @@ breakpoint resolution not correlating liearly with coverage.  To discuss as a
 group.}
 
 
-
 \subsection{Benchmarks using 1000 Genomes datasets}
 \textbf{Speed with 1, 2, 3, ..., 10 samples.  How many events per sample?
 Need to use both PE and SR.}
@@ -222,7 +223,18 @@ Need to use both PE and SR.}
 % Discussion
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
-
+Points to make:\\
+1. Mention that the framework is extensible to multiple samples. \\
+2. Mention that we presented results for PE and SR, but it can be 
+improved by integrating CN, existing calls, etc.  Even though our FDR for 
+deletions is already quite low, we anticipate that it could be brought to ~0
+by integrating CN calls from another tool.\\
+3. The simulation is whole-genome unlike simulations done by other tools, 
+and as such, we feel that the results have a stronger grounding in reality
+than others.
+4. The tool is easy to use, runs in reasonable times, and produces highly
+sensitive and specific results.  
+5. Utility for cancer and studies of somatic instability, etc.
 
 
 
