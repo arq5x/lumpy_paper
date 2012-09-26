@@ -127,7 +127,23 @@ SVs are much more common than larger events \cite{mills2011}.
 
 
 \subsection{False discovery rate}
-\textbf{To Do.}
+Improved SV dicovery sensitivity is crucial for comprehensive characterizations
+of the full specturm of genetic variation in human genomes, yet high
+sensitivity at the cost of an inflated false discovery rate (FDR) is
+undesirable given the time and cost associated with pursing
+the putative biological impact of spurious variation.
+
+We compared the FDR for each SV discovery tool using the same simulated
+SVs as described above (Table 1). With the exception of DELLY (\textbf{are we sure about
+these results???}), the false discovery rate for all tools ranged from 0.0\%
+to 24.1\%. While UNNAMED's FDR was slightly higher than GASVPRO for deletions,
+UNNAMED's FDR was consistently low (0.0\% - 4.6\%) across all SV types and
+coverage levels. In contrast, GASVPRO had much higher FDRs for inversions and
+the FDR increased at lower coverage levels.  HYDRA had consistent FDRs across
+SV types and coverage levels (0.0\% to 8.9\%), yet these rates were always 
+higher than the analagous UNNAMED FDRs. These results indicate that UNNAMED's
+probabilistic framework afford substantial improvements in discovery
+sensitivity while maintaining low false discovery rates.
 
 
 
@@ -189,7 +205,8 @@ group.}
 
 
 \subsection{Benchmarks using 1000 Genomes datasets}
-
+\textbf{Speed with 1, 2, 3, ..., 10 samples.  How many events per sample?
+Need to use both PE and SR.}
 
 
 
