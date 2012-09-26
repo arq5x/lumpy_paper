@@ -2,6 +2,7 @@
 \usepackage{fullpage}
 \usepackage{multirow}
 \usepackage{amsmath}
+\usepackage{graphicx}
 %\usepackage[ruled,vlined]{algorithm2e}
 \usepackage[ruled,noline]{algorithm2e}
 
@@ -79,6 +80,10 @@ predicted SV breakpoint region.
 4. Describe the quantile/decile cutoff concept.
 5. Describe how this leads to improved sensitivity and resolution.
 
+\begin{figure}
+\includegraphics{Workflow.eps}
+\end{figure}
+
 
 \subsection{Comparison of discovery perormance on simulated datasets}
 In order to assess the performance of our framework, we compared our discovery
@@ -138,43 +143,46 @@ SVs are much more common than larger events \cite{mills2011}.
 \cline{2-5}
 			& \multicolumn{4}{c}{Deletions} \\
 \cline{1-5}
-pe			& 0.011			& 0.006		 	& 0.008		 	& 0.0 \\
-sr          & 0.003			& 0.0           & 0             & 0.0 \\
-pesr        & 0.013			& 0.005		    & 0.005		    & 0.0 \\
-hydra       & 0.038			& 0.01		    & 0.006		    & 0.0 \\
-gasvpro     & 0.0	        & 0.0           & 0             & 0.0 \\
-delly pe    & 0.391			& 0.632		    & 0.744		    & 0.867\\
-delly sr    & 0.0	        & 0.0           & 0             & 0.0 \\
+pe		&	0.014	&0.009	&0.008	&0 \\
+sr      &    0.006	&0.001	&0		&0 \\
+pesr    &    0.018	&0.007	&0.005	&0 \\
+hydra   &    0.038	&0.01	&0.006	&0 \\
+gasvpro &    0		&0		&0		&0 \\
+delly pe&    0.002	&0.001	&0		&0 \\
+delly sr&    0		&0		&0		&0 \\
 \cline{2-5}
 			& \multicolumn{4}{c}{Duplications} \\
 \cline{2-5}
-pe          & 0.004			& 0.002		    & 0             & 0.0 \\
-sr          & 0.002			& 0.001		    & 0             & 0.0 \\
-pesr        & 0.005			& 0.003		    & 0             & 0.0 \\
-hydra       & 0.03			& 0.006		    & 0.011		    & 0.0 \\
-gasvpro     & N/A	        & N/A           & N/A           & N/A \\
-delly pe    & 0.377			& 0.691		    & 0.843		    & 0.889\\
-delly sr    & 0.0	        & 0.0           & 0             & 0.0 \\
+
+pe          &0.004	&0.003	&0		&0 \\
+sr          &0.005	&0.002	&0.003	&0 \\
+pesr        &0.007	&0.005	&0.001	&0 \\
+hydra       &0.03	&0.006	&0.011	&0 \\
+gasvpro     &N/A	&	N/A	&	N/A	&	N/A	 \\
+delly pe    &0		&0		&0		&0.028 \\
+delly sr    &0		&0		&0		&0 \\
 \cline{2-5}
 			& \multicolumn{4}{c}{Insertions} \\
 \cline{2-5}
-pe          & 0.042			& 0.019		    & 0.016		    & 0.0 \\
-sr          & 0.01			& 0.002			& 0.004		    & 0.0 \\
-pesr        & 0.046			& 0.017	        & 0.009		    & 0.0 \\
-hydra       & 0.089			& 0.034		    & 0.034		    & 0.03\\
-gasvpro     & 0.241			& 0.131		    & 0.065		    & 0.041\\
-delly pe    & N/A	        & N/A           & N/A           & N/A \\
-delly sr    & N/A	        & N/A           & N/A           & N/A\\
+
+pe          &0.042	&0.02	&0.016	&0 \\
+sr          &0.013	&0.002	&0.006	&0 \\
+pesr        &0.05	&0.018	&0.009	&0 \\
+hydra       &0.089	&0.034	&0.034	&0.03 \\
+gasvpro     &0.242	&0.131	&0.065	&0.041 \\
+delly pe    &N/A		&N/A		&N/A		&N/A \\
+delly sr    &N/A		&N/A		&N/A		&N/A \\
 \cline{2-5}
 			& \multicolumn{4}{c}{Inversions} \\
 \cline{2-5}
-pe          & 0.004			& 0.0           & 0             & 0.0 \\
-sr          & 0.001			& 0.001		    & 0             & 0.0 \\
-pesr        & 0.006			& 0.001		    & 0.001		    & 0.0 \\
-hydra       & 0.054			& 0.016		    & 0.006		    & 0.0 \\
-gasvpro     & 0.005			& 0.032		    & 0.082		    & 0.079\\
-delly pe    & 0.464			& 0.682			& 0.763		    & 0.841\\
-delly sr	& 0.004			& 0.0			& 0.0			& 0.0 \\
+
+pe          &0.004	&0		&0		&0 \\
+sr          &0.004	&0.002	&0.001	&0 \\
+pesr        &0.009	&0.002	&0.002	&0 \\
+hydra       &0.054	&0.013	&0.006	&0 \\
+gasvpro     &0.005	&0.032	&0.082	&0.079 \\
+delly pe    &0		&0		&0		&0 \\
+delly sr	&0.004	&0		&0		&0 \\
 \end{tabular}
 \label{table:fdr}
 \end{table}
@@ -509,7 +517,7 @@ sample with fragment length greater than $j$.
 
 % get_w
 
-The weight of each sequcence pair is an input parameter $v_w$.  
+The weight of each sequcence pair is an input parameter $v_w$.
 
 \subsubsection{Split Read Alignments}
 
@@ -580,15 +588,16 @@ configurable parameter $v_s$ and is based on the quality of the sample under
 consideration and the specificity of the alignment algorithm used to map the
 sequences to the reference.
 
-Depending breakpoint variety and oritentaiton of 
-$\langle x_i, x_{i+1} \rangle$, the breakpoint intervals $l$ and $r$ are
-centered on either the start or end of $R(x_i)$ and $R(x_{i+1})$.  Without loss
-of generality, let $R(x_i).s<R(x_{i+1})$.  If the breakpoint is an inversion,
-$l$ and $r$ are centered at the $R(x_i).s$ and $<R(x_{i+1}).s$, respectively, if
-$R(x_i).o=+$, otherwise $l$ and $r$ are centered at the $R(x_i).e$ and
-$<R(x_{i+1}).e$.  When the breakpoint is a deletion $l$ is cetnered at
-$R(x_i).e$ and $r$ at $R(x_i).s$, and when the breakpoint is a duplication
-$l$ is cetnered at $R(x_i).s$ and $r$ at $R(x_i).e$.  
+Depending the breakpoint variety, the intervals $l$ and $r$ are centered on
+either the start or the end of $R(x_i)$ and $R(x_{i+1})$.  When the breakpoint
+is a deletion $l$ is centered at $R(x_i).e$ and $r$ at $R(x_{i+1}).s$, and when
+the breakpoint is a duplication $l$ is centered at $R(x_i).s$ and $r$ at
+$R(x_{i+1}).e$.  If the breakpoint is an inversion, $l$ and $r$ are both 
+centered ether at the start positions or end positions of $R(x_i)$ and
+$R(x_{i+1})$, respectivly.  Assuming that $R(x_i).s<R(x_{i+1}).s$, if
+$R(x_i).o=+$ then $l$ and $r$ are centered at $R(x_i).e$ and  $R(x_{i+1}).e$,
+otherwise they are centered at $R(x_i).s$ and  $R(x_{i+1}).s$.  If
+$R(x_i).s>R(x_{i+1}).s$, then the conditions are swapped.
 
 
 \begin{algorithm}[H]
@@ -603,28 +612,38 @@ $l$ is cetnered at $R(x_i).s$ and $r$ at $R(x_i).e$.
     \textbf{Function} $\textsc{get\_bpi}$\;
 		%(R,\langle x,y \rangle,\overline{l},\overline{s},v_f,D)$\;
 	\Begin{
-			
-		\uIf{$v = \textsc{Inversion}$\;} {
-		}
-		\uElseIf{$v = \textsc{Deletion}$\;} {
-		}
-		\uElseIf{$v = \textsc{Duplication}$\;} {
-		}
+		$l_c \gets NULL$	
+		$r_c \gets NULL$	
 
-		\uIf{$R(x).o = +$} {
-			$t.s \gets R(z).e$\;
-			$t.e \gets R(z).e + \overline{l} + v_f*\overline{s}$\;
-			\For{$i = 1 \to ( t.e - t.s ) $} {
-				$t.p[i] \gets D(j)$\;
+		\uIf{$v = \textsc{Inversion}$} {
+
+			\uIf{$R(x_i).s<R(x_{i+1}).s$} {
+				\lIf{$R(x_i).o=+$}
+					{$l_c\gets R(x_i).e,r_c\gets R(x_{i+1}).e$}\;
+				\lElse {$l_c\gets R(x_i).s,r_c\gets R(x_{i+1}).s$}\;
+			} \Else {
+				\lIf{$R(x_i).o=+$}
+					{$l_c\gets R(x_i).s,r_c\gets R(x_{i+1}).s$}\;
+				\lElse
+					{$l_c\gets R(x_i).e,r_c\gets R(x_{i+1}).e$}\;
 			}
+
 		}
-		\uElse {
-			$t.e \gets R(z).s$\;
-			$t.s \gets R(z).s - (\overline{l} + v_f*\overline{s})$\;
-			\For{$i = 1 \to ( l.e - l.s ) $} {
-				$t.p[(t.e-t.s) - i] \gets D(j)$\;
-			}
-		}	
+		\lElseIf{$v = \textsc{Deletion}$} 
+			{$l_c\gets R(x_i).e,r_c\gets R(x_{i+1}).s$}\;
+		\lElseIf{$v = \textsc{Duplication}$} 
+			{$l_c\gets R(x_i).s,r_c\gets R(x_{i+1}).e$}\;
+
+		$l.s\gets l_c - v_s, l.e\gets l_c + v_s$\;
+		$r.s\gets r_c - v_s, r.e\gets r_c + v_s$\;
+
+		$\lambda = \log(1e-10)/-v_s$\;
+		\For{$i = 1 \to v_s $} {
+			$l.p[i] \gets r.p[i] \gets \exp^{-\lambda(v_s - i)}$
+		}
+		\For{$i = v_s \to 2*v_s $} {
+			$l.p[i] \gets r.p[i] \gets \exp^{-\lambda(i - v_s)}$
+		}
 	
 		\Return $l,r$
 	}
@@ -633,10 +652,18 @@ $l$ is cetnered at $R(x_i).s$ and $r$ at $R(x_i).e$.
     \label{get_bp_sr}
 \end{algorithm}
 
-
 % get_w
 
+The weight of each sequcence pair is an input parameter $v_w$.
+
 \subsubsection{Generic Evidence}
+
+The generic evidence subclass provides a mechanism to include a wide variety of
+data, from known varients to tool output.
+
+two example, known vairents and cnv
+
+
 % is_bp
 % type
 % get_bp
