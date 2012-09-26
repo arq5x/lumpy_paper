@@ -74,11 +74,50 @@ predicted SV breakpoint region.
 \textbf{Elaborate}
 
 \subsection{Overview of the probabilistic framework}
-1. Walk through the concept (use the high-level figure that Ryan is working on).
-2. What are the signals and the uncertainties associated with them.
-3. How are they integrated?
-4. Describe the quantile/decile cutoff concept.
-5. Describe how this leads to improved sensitivity and resolution.
+%1. Walk through the concept (use the high-level figure that Ryan is working on).
+%2. What are the signals and the uncertainties associated with them.
+%3. How are they integrated?
+%4. Describe the quantile/decile cutoff concept.
+%5. Describe how this leads to improved sensitivity and resolution.
+
+To allow different SV alignment signals to be considered early in the analysis
+processes (i.e., before calls are made), we propose a framework based on a
+general breakpoint representation that can be satisfied by a broad range of
+signals.  Clustering, filtering, and prediction are performed only after all
+signals are mapped to this general representation.  The framework can improve
+prediction sensitive by allowing the detection of variants that do not have
+enough evidence from any one signal to be distinguished from the noise, but do
+have evidence from multiple signals.
+
+We define a breakpoint to be a pair of bases that are adjacent in a sample
+genome but not in a reference genome.  To account for the varying level noise
+inherent to different types of evidence, we represent a breakpoint with pair of
+probability intervals that span the predicted breakpoint regions.  Each position
+in the two intervals is assigned a probability that represents the relative
+likelihood that the given position is one end of the breakpoint.
+
+Evidence subclasses define the mapping from a particular evidence data type to a
+probability interval pair.  For example, the pair=end subclass maps a paired-end
+sequence alignment to a pair of intervals upstream or downstream (depending on
+orientation) of the mapped ends.  The size of the intervals and the likelihood
+at each position is based on the sample's library size.  Any type of evidence
+can be considered, as long a mapping from the signal to a breakpoint exists.
+Here we provide three subclasses: pair-end, split-read, and generic.  The
+pair-end subclass maps the output of a paired-end sequence alignment algorithm
+(e.g., bwa), the split-read subclass maps the output of a split-read sequence
+alignment algorithm (e.g., yaha, bwasw), and the generic subclass allows users
+to include the result of a mapping for a data type that do not have specific
+subclass implemented (e.g., known biologic information, output from other
+tools).
+
+Once all of the evidence from the different classes is mapped to breakpoints,
+all breakpoints with overlapping intervals are clustered and the probability
+intervals are combined.  Any clustered that conatains enough evidence is
+returned as predicted SV.  Similar to the breakpoint probability, the clustered
+probabilities give the relative likelihood of a breakpoint.  We can improve the
+resolution of the calls by trimming the positions with probabilities in the
+lower percentile of the distribution.
+
 
 \begin{figure}
 \includegraphics{Workflow.eps}
@@ -588,7 +627,6 @@ alignment data type in Algorithm~\ref{get_v_sr}.
     \KwOut{Breakpoint variety for $\langle x,y \rangle$}
     \BlankLine
     \textbf{Function} $\textsc{get\_v}$\;
-		%$\textsc{get\_v}(R,\langle x_i,x_{i+1} \rangle$\;
 	\Begin{
 		\uIf{$R(x_i).o \ne R(x_{i+1}).o$}
 			{\Return \textsc{Inversion}\;}
@@ -639,7 +677,6 @@ $R(x_i).s>R(x_{i+1}).s$, then the conditions are swapped.
    \KwOut{Breakpoint intervals $l$ and $r$}
     \BlankLine
     \textbf{Function} $\textsc{get\_bpi}$\;
-		%(R,\langle x,y \rangle,\overline{l},\overline{s},v_f,D)$\;
 	\Begin{
 		$l_c \gets NULL$	
 		$r_c \gets NULL$	
