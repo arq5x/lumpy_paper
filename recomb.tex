@@ -149,6 +149,11 @@ UNNAMED detects 24.5\% and 79.3\% of all deletions at 2 and 5 fold genome
 coverage, whereas HYDRA, the next most sensitive approach, detects 2.9\% and
 30.9\%, respectively. 
 
+\begin{figure}
+\includegraphics[width=6.5in]{fig1.eps}
+\end{figure}
+
+
 At lower coverage (i.e., 2 and 5X), UNNAMED is consistently more sensitive 
 than all other approaces compred across all SV types. At most, UNNAMED was 
 8.4 times more sensitive than the second most
@@ -317,8 +322,10 @@ locations, we represent the breakpoint's location with a pair of breakpoint
 intervals where each interval has a a start position, an end position, and a
 probability array that represents the likelihood that a given position in the
 interval is one end of the breakpoint.  More formally, a breakpoint is a tuple 
-$b=\langle E,l,r,w,v \rangle$ where
+$b=\langle E,l,r,v \rangle$ where
 \begin{itemize}
+\item $E$ is the set of evidence that corroborates the location and variety of a
+particular breakpoint
 \item $l$ and $r$ are left and right breakpoint intervals each with values
 	$\langle s, e, p \rangle$ where
 	\begin{itemize}
@@ -326,64 +333,51 @@ $b=\langle E,l,r,w,v \rangle$ where
 		\item $p$ is a probability array where $|p|=e-s$ and $p[i]$ is the
 		probability that position $s+i$ is one end of the breakpoint
 	\end{itemize}
-\item $E$ is set of evidence that corroborates the location and variety of a
-particular breakpoint
-\item $w=\sum\limits_{i=1}^{|E|} E_i.w $ cumulative breakpoint weight, were
-each evidence weight represents the level of confidence in the associated
-instance 
-\item $v=\textsc{Deletion}|\textsc{Insertion}|\textsc{Inversion}$ is the
-breakpoint variety
+%\item $w=\sum\limits_{i=1}^{|E|} E_i.w $ cumulative breakpoint weight, were
+%each evidence weight represents the level of confidence in the associated
+%instance 
+\item  is the breakpoint variety (e.g., $v=\textsc{Deletion}$,
+$\textsc{Duplication}$, etc.)
 \end{itemize}
 
-When a breakpoint $b$ is created from some piece of evidence, it is placed into
-the set of all breakpoints $B$.  If there exits some other breakpoint $c \in B$
-that intersects $b$ ($b.r$ intersects $c.r$, $b.l$ intersects $c.r$, and $b.v =
-c.v$), then $b$ and $c$ are {\em merged} into interval $m$, $b$ and $c$ are
-removed from $B$, and $m$ is placed into $B$.  The merged breakpoint $m$ is
-defined as:
-\begin{itemize}
-\item $E = b.E + c.E$
-\item $l.s = \max(b.l.s, c.l.s)$, $l.s = \min(b.l.e, c.l.e)$, similar for
-$r.s$ and $r.e$
-\item $l.p = b.l.p * c.l.p$, similar for $r.p$
-\item $w = b.w + c.w$
-\item $v = b.v = c.v$
-\end{itemize}
-
-Once all evidence has been considered, the breakpoints in $B$ are enumerated.
-Since each genomic interval has a probability array associated with it, the
-intervals may be trimmed to contain only the positions that meet some minimum
-threshold (e.g., greater than 1e-10).  Some care must be taken when selecting
-this value as the probabilities in this array shrink when the amount of evidence
-for the breakpoint increases.
-
+When a breakpoint $b$ is inserted into the set of all breakpoints $B$, if there
+exits some other breakpoint $c \in B$ that intersects $b$ ($b.r$
+intersects $c.r$, $b.l$ intersects $c.r$, and $b.v = c.v$), then $b$ and $c$
+are {\em merged} into interval $m$, $b$ and $c$ are removed from $B$, and $m$ is
+placed into $B$.  The merged breakpoint $m$ is defined as
+$\langle E = b.E + c.E, l_n, r_n, v = b.v = c.v\rangle$, where 
+$l_n.s = \max(b.l.s, c.l.s)$, $l_n.e = \min(b.l.e, c.l.e)$, similar for 
+$r_n$.  Once all evidence has been considered, the breakpoints in $B$ are
+enumerated.  Since each genomic interval has a probability array associated with
+it, the intervals may be trimmed to inlude only the positions that meet are
+in the top percentile (e.g., top 99.9 percent of values).
 
 \subsection{Breakpoint Evidence}
 
-To link the general breakpoint structured defined above and the specifics of
-data like paired end sequencing alignments and split read mappings, we define
-an abstract breakpoint evidence type.  This abstract type defines an interface
-that allows for the inclusion of any data that can provide the following
-functions:
+To link the general breakpoint type defined above and the specifics of data like
+paired end sequencing alignments and split read mappings, we define an abstract
+breakpoint evidence type.  This abstract type defines an interface that allows
+for the inclusion of any data that can provide the following functions:
+
 \begin{itemize}
-	\item $\textsc{is\_bp()}$ that determines if a particular
+	\item $\textsc{is\_bp()}$ determines if a particular
 	instance of the data contains evidence of a break point
-	\item $\textsc{get\_v()}$ that determines the breakpoint 
+	\item $\textsc{get\_v()}$ determines the breakpoint 
 	variety (e.g., deletion, duplication, inversion, etc.)
-	\item $\textsc{get\_bpi()}$ that maps the data to a pair of
+	\item $\textsc{get\_bpi()}$ maps the data to a pair of
 	breakpoint intervals
-	\item $\textsc{get\_w()}$ that represents the level of confidence
-	that a specific data type is evidence of a real breakpoint
+	%\item $\textsc{get\_w()}$ that represents the level of confidence
+	%that a specific data type is evidence of a real breakpoint
 \end{itemize}
 
 To demonstrate the applicability of this abstraction, we defined three
-breakpoint evidence instances: paired end sequencing, split read mapping, and a
-general breakpoint interface.  Paired end sequencing and split read mapping are
-among the most frequently used data types for breakpoint detection, and the
-general interface provides a mechanism to include any other breakpoint
-information such as known breakpoints or output from other analysis pipelines.
-As technologies evolve and our understanding of structural variations improves,
-other instances can be easily added.
+breakpoint evidence instances: paired end sequencing alignemnts, split read
+mapping, and a general breakpoint interface.  Paired end sequencing and split
+read mapping are among the most frequently used data types for breakpoint
+detection, and the general interface provides a mechanism to include any other
+breakpoint information such as known breakpoints or output from other analysis
+pipelines.  As technologies evolve and our understanding of structural
+variations improves, other instances can be easily added.
 
 \subsubsection{Paired End Sequencing Alignments}
 
@@ -400,20 +394,21 @@ sample genome, it is useful to refer to  $S(x)=<o,s,e>$ as the alignment of $x$
 with respect to the originating sample's genome.
 
 % is_bp
-Pairs are expected to align to the reference genome with a $R(x).o=+, R(y).o=-$
-orientation, and at distance $R(y).e - R(x).s$ roughly equivalent to the
-fragmentation length from the sample preparation step.  Any pair that aligns an
-unexpected configuration can be evidence of a breakpoint.  These unexpected
-configurations include matching orientation $R(x).o = R(y).o$, alignments with
-switched orientation $R(x).o=-, R(y).o=+$, and an apparent fragment length
-($R(y).e - R(x).s$) that is either shorter or longer than expected.  We
-estimated the expected fragment length to be the sample mean $\overline{l}$
-fragment length, and the fragment length standard deviation to be the sample
-standard deviation $\overline{s}$ from the set of properly mapped pairs (as
-defined by the SAM spec) in the sample data set.  Given $\overline{l}$,
-$\overline{s}$, and a tuning parameter $z$ to account for some variability in
-the sequencing process, we can define the function $\textsc{is\_bp()}$ for the
-paired end sequence alignment data type in Algorithm~\ref{is_bp}.
+Assuming the reads were made on an Illumina platform, pairs are expected to
+align to the reference genome with a $R(x).o=+, R(y).o=-$ orientation, and at
+distance $R(y).e - R(x).s$ roughly equivalent to the fragmentation length from
+the sample preparation step.  Any pair that aligns with an unexpected
+configuration can be evidence of a breakpoint.  These unexpected configurations
+include matching orientation $R(x).o = R(y).o$, alignments with switched
+orientation $R(x).o=-, R(y).o=+$, and an apparent fragment length ($R(y).e -
+R(x).s$) that is either shorter or longer than expected.  We estimated the
+expected fragment length to be the sample mean $\overline{l}$ fragment length,
+and the fragment length standard deviation to be the sample standard deviation
+$\overline{s}$ from the set of properly mapped pairs (as defined by the SAM
+spec) in the sample data set.  Given $\overline{l}$, $\overline{s}$, and a
+tuning parameter $z$ to account for some variability in the sequencing process,
+we can define the function $\textsc{is\_bp()}$ for the paired end sequence
+alignment data type in Algorithm~\ref{is_bp}.
 
 \begin{algorithm}[H]
     \DontPrintSemicolon
@@ -475,7 +470,7 @@ data type in Algorithm~\ref{get_v}.
 			{\Return \textsc{Inversion}\;}
 		\uElseIf{$R(x).o = - \textbf{ and } R(y).o = +$}
 			{\Return \textsc{Duplication}\;}
-		\uElseIf{$R(x).o = - \textbf{ and } R(y).o = +$}
+		\uElseIf{$R(x).o = + \textbf{ and } R(y).o = -$}
 			{\Return \textsc{Deletion}\;}
 	}
 	\caption{Breakpoint evidence function that determines the breakpoint variety
@@ -584,7 +579,7 @@ sample with fragment length greater than $j$.
 
 % get_w
 
-The weight of each sequcence pair is an input parameter $v_w$.
+%The weight of each sequcence pair is an input parameter $v_w$.
 
 \subsubsection{Split Read Alignments}
 
@@ -719,7 +714,7 @@ $R(x_i).s>R(x_{i+1}).s$, then the conditions are swapped.
 
 % get_w
 
-The weight of each sequcence pair is an input parameter $v_w$.
+%The weight of each sequcence pair is an input parameter $v_w$.
 
 \subsubsection{Generic Evidence}
 
