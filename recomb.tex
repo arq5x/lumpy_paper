@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 %\usepackage[ruled,vlined]{algorithm2e}
 \usepackage[ruled,noline]{algorithm2e}
-
+\usepackage{authblk}
 
 \begin{document}
 
@@ -13,15 +13,42 @@
 % Title
 %%%%%%%%%%%%%%%%%%%%%%
 \title{A probabilistic framework for sensitive structural variant discovery}
-\author{Authors: RL, IH, AQ, others?}
-\maketitle
+%\author{Ryan M. Layer$^1$, 
+%Gabriel Robins$^1$, 
+%Ira M. Hall$^2$,
+%and
+%Aaron R. Quinlan$^3$\footnote{to whom correspondence should be addressed}}
+%
+%\address{$^{1}$Department of Computer Science, University of Virginia, Charlottesville, VA\\
+%$^{2}$Department of Biochemistry and Molecular Genetics, University of Virginia, Charlottesville, VA\\
+%$^{3}$Department of Public Health Sciences and Center for Public Health
+%Genomics, University of Virginia, Charlottesville, VA}
 
+\author[1]{Ryan M. Layer}
+\author[2]{Ira M. Hall\thanks{\mbox{Corresponding author}}}
+\author[2,3]{Aaron R, Quinlan\thanks{\mbox{Corresponding author}}}
+\affil[1]{Department of Computer Science, University of Virginia, Charlottesville, VA}
+\affil[2]{Department of Biochemistry and Molecular Genetics, University of Virginia, Charlottesville, VA}
+\affil[3]{Department of Public Health Sciences and 
+Center for Public Health Genomics, University of Virginia, Charlottesville, VA}
+
+
+\maketitle
 
 %%%%%%%%%%%%%%%%%%%%%%
 % Abstract
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Abstract}
-
+Comprehensive discovery of structural variation (SV) in human genomes from DNA
+sequencing requires the integration of multiple alignment ``signals''. However,
+owing to inherent technical challenges, most existing SV discovery approaches 
+utilize only a single signal. Existing approaches consequently suffer from
+low sensitivity, especially at low sequence coverage and for smaller SVs. We
+present a novel probabilistic SV discovery framework that is capable of
+integrating multiple SV alignment signals. We demonstrate improved sensitivity
+over extant methods by combining both paired-end and split-read alignments and
+emphasize the utility of our framework for comprehensive studies of structural
+variation in often heterogeneous tumor genomes.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -30,8 +57,8 @@
 \section{Introduction}
 
 Differences in chromosome structure are a prominent source of natural 
-genetic variation in the human population. While such structural variants (SVs),
-which include both balanced (e.g., inversions and reciprocal translocations)
+genetic variation in the human population. While such structural variants,
+including both balanced (e.g., inversions and reciprocal translocations)
 and unbalanced (e.g., deletions and duplications) genomic rearrangements, are 
 less common than other forms of genetic variation such as single-nucleotide 
 polymorphisms (SNPs), they are typically much larger, and as such, have the 
@@ -39,19 +66,19 @@ potential for substantial functional consequence. Spontaneous structural
 variants underly many genomic disorders and polymorphic SVs have been shown to
 be associated with common diseases \cite{McCarroll2008}. Moreover, extensive
 genomic rearrangement is a hallmark of tumor genomes, and complex rearrangements
-have been shown to be correlated with a tumor's response to chemotherapy
+have been negatively correlated with a tumor's response to chemotherapy
 \cite{Rausch2012}.
 
-Our detailed understanding of the landscape of SV in the human gnome and the
+Our detailed understanding of the landscape of SV in the human genome and the
 mechanisms that form them has, in large part, been driven by advances in DNA
 sequencing technologies. However, the discovery and genotyping of SV is 
 fundamentally more complicated than SNPs; SVs vary both in size and state, 
 and SV discovery algorithms must incorporate several distinct alignment 
-\"signals\" (or a lack thereof) for accurate discovery. Consequently, the
+``signals'' (or a lack thereof) for accurate discovery. Consequently, the
 accuracy of existing SV discovery tools remains substantially lower than for
 smaller genetic variants. More importantly, most existing SV discovery
-tools examine a single type of alignment signal (e.g., either \"split\" or 
-\"discordant\" alignments). Discovery sensitivity is typically limited as a 
+tools examine a single type of alignment signal (e.g., either ``split'' or 
+``discordant'' alignments). Discovery sensitivity is typically limited as a 
 result. The impact of this reduced sensitivity is particularly acute in studying 
 cancer, as tumor genomes are often highly heterogeneous, meaning that even 
 when cancer genomes are sequenced to high coverage, less frequent rearrangements 
@@ -68,9 +95,12 @@ genomic events in cancer and in other studies of somatic genome variability.
 \section{Results}
 
 In this manuscript, we describe a general probabilistic framework for 
-integrating diverse SV alignment signals from multiple sources in order 
-to improve both discovery sensitivity and specificity and to increase the 
-resolution of the predicted SV breakpoint region.
+integrating diverse SV alignment signals from multiple sources. Our framework is
+motivated by the relatively poor sensitivity of SV discovery algorithms
+that utilize only one type (e.g., paired-end mapping) of alignment signal.
+By providing a flexible framework that can exploit \emph{all} alignment signals,
+we seek to improve both discovery sensitivity and specificity and to increase 
+the resolution of predicted SV breakpoint regions.
 
 \subsection{Overview of the probabilistic framework}
 %1. Walk through the concept (use the high-level figure that Ryan is working on).
@@ -79,21 +109,20 @@ resolution of the predicted SV breakpoint region.
 %4. Describe the quantile/decile cutoff concept.
 %5. Describe how this leads to improved sensitivity and resolution.
 
-Our probabilistic framework is based upon a general breakpoint representation
-that accommodates a broad range of alignment signal that are indicative of
-putative structural rearrangement breakpoints. In order to integrate diverse 
-SV alignment signals into a single discovery process, we propose a framework 
-based on a general breakpoint representation that can be satisfied by a broad 
-range of signals. The use of a generalized framework that integrates diverse 
-alignment signals will yield greater sensitivity, especially at lower
-coverage, since many SVs may be recovered that would otherwise be missed were
-only a single SV alignment signal considered. Similarly, greater specificity
-can be realized by asserting that, assuming reasonable sequence coverage, 
-evidence for true SV should be apparent through more than one alignment signal.
+Our probabilistic framework is based upon a general representation of a SV 
+breakpoint that accommodates multiple structural rearrangement signals (for a 
+comprehensive review, see \cite{Alkan2011}). The use of a generalized framework
+allows all SV alignment signals to be integrated into a single discovery
+process (Methods). In turn, SV discovery is more sensitivity, 
+especially at lower coverage, since many additional SVs may be recovered that 
+would otherwise be missed were only a single SV alignment signal considered. 
+Similarly, greater specificity can be realized by asserting that, assuming 
+reasonable sequence coverage, evidence for true SV should be apparent through 
+more than one alignment signal.
 
 We define a breakpoint as a pair of bases that are adjacent in a sample genome 
 but not in a reference genome.  To account for the varying level noise inherent 
-to different types of alignment evidence (e.g., \"split\" vs. \"discordant\" 
+to different types of alignment evidence (e.g., ``split'' vs. ``discordant'' 
 alignments), we represent a breakpoint with pair of probability distributions
 spanning the predicted breakpoint regions (Figure 1, Methods).  Each position 
 in the two intervals is assigned a probability that represents the relative 
@@ -105,36 +134,40 @@ likelihood that the given position represents one end of the breakpoint.
 %enough evidence from any one signal to be distinguished from the noise, but do
 %have evidence from multiple signals.
 
-Our framework provides distinct sub-classes that map signals from each alignment 
-evidence type to the common probability interval pair.  For example, paired-end 
+Our framework provides distinct modules that map signals from each alignment 
+evidence type to our common probability interval pair.  For example, paired-end 
 sequence alignments are projected to a pair of intervals upstream or downstream 
 (depending on orientation) of the mapped ends (Figure 1).  The size of the 
 intervals and the likelihood at each position is based on the size distribution
 of the sample's DNA fragment library.  The distinct advantage of this approach
-is that any type of evidence can be considered, as long as a clear mapping from 
-the alignment signal to breakpoint likelihoods exists.
-Here we provide three subclasses: paired-end, split-read, and generic.  The
-pair-end subclass maps the output of a paired-end sequence alignment algorithm
-(e.g., BWA \cite{Li2009}), the split-read subclass maps the output of a split-read sequence
-alignment algorithm (e.g., YAHA\cite{Faust2012}, BWA-SW\cite{Li2010}), and the 
-generic subclass allows users to include the result of a mapping for a data 
-type that do not have specific subclass implemented (e.g., a priori knowledge 
-such as known sites of SV, and/or output from other algorithms).
+is that \emph{any} type of evidence can be considered, as long there exists
+a direct mapping from the alignment signal to breakpoint likelihoods.
+Here we provide three modules for converting SV alignment signals to breakpoint
+likelihood intervals: paired-end, split-read, and generic.  We emphasize that
+our framework is extensible to possible new alignment signals from forthcoming
+DNA sequencing technologies \cite{OxfordNanopore}. The paired-end module maps 
+the output of a paired-end sequence alignment algorithm 
+(e.g., BWA \cite{Li2009}), the split-read module maps the output of a 
+split-read sequence alignment algorithm (e.g., YAHA\cite{Faust2012}, 
+BWA-SW\cite{Li2010}), and the generic module allows users to include the result 
+SV signal types that do not have specific module implemented (e.g., 
+\emph{a priori} knowledge such as known sites of SV, and/or output from 
+copy-number variation discovery tools).
 
-Once all of the evidence from the different classes is mapped to breakpoints,
-all breakpoints with overlapping intervals are clustered and the probability
-intervals are integrated to refine the evidence for rearrangement and the 
-predicted breakpoint interval (see Methods for details).  Any clustered 
-breakpoint region that contains sufficient \textbf{RYAN BE MORE SPECIFIC} 
-evidence is returned as predicted SV.  
+Once all of the evidence from the different classes is mapped to breakpoint
+intervals, all breakpoints with overlapping intervals are clustered and 
+the probability intervals are integrated to refine the evidence for 
+rearrangement and the predicted breakpoint interval (see Methods for details).  
+Any clustered breakpoint region that contains sufficient evidence (based on 
+user-defined arguments) is returned as predicted SV.  
 Similar to the breakpoint probability, the clustered probabilities give the 
 relative likelihood of a breakpoint.  The resolution of the predicted breakpoint
 regions is improved by trimming the positions with probabilities 
-in the lower (\textbf{RYAN, BE MORE SPECIFIC}) percentile of the distribution.
+in the lower (e.g., the lowest 5 percent) percentile of the distribution.
 
-We have implemented this framework into a C++ software package (UNNAMED) that is
-capable of detecting SV from multiple alignment signals in BAM alignment file
-from one or more samples.
+We have implemented this framework into an open source C++ software package 
+(UNNAMED) that is capable of detecting SV from multiple alignment signals in 
+BAM alignment file from one or more samples.
 
 \begin{figure}
 \includegraphics{Workflow.eps}
@@ -150,14 +183,14 @@ and inversions (4000 events total) throughout chromosome 10 of the hg19 genome
 using SVsim (Faust et al, \emph{in preparation}).  For each SV event type, half
 of the variants were less than 1kb and the other half were greater than 1kb (see
 Methods for details).  We used the WGSIM \cite{Li2008} paired-end read 
-simulator to \"sequence\" our simulated genome to 2, 5, 10, and 20 fold 
+simulator to \"sequence\" our simulated genome to 2, 5, and 20 fold 
 haploid coverage (Methods).
 
 \subsection{Discovery sensitivity}
 The predicted SV breakpoints from each discovery approach were compared to the
 simulated breakpoints in order to measure each approach's sensitivity (Figure 2) 
-and false discovery rate (FDR; Table 1). Not surprisingly, breakpoint discovery
-sensitivity increases for each approach as a function of genome coverage.
+and false discovery rate (FDR; Table 1). Not surprisingly, for each approach,
+breakpoint discovery sensitivity increases with greater genome coverage.
 Moreover, UNNAMED's sensitivity is improved when both paired-end and split-read
 alignments are integrated into the probabilistic framework, as compared to 
 discovery with either signal alone. In addition, UNNAMED is consistently more
@@ -170,6 +203,7 @@ coverage, whereas HYDRA, the next most sensitive approach, detects 2.9\% and
 \includegraphics[width=6.5in]{R/ss_sl_s-un_hy_gv_dl-r10x.png}
 \end{figure}
 
+\textbf{DOUBLE-CHECK ALL OF THE SENSITIVITY NUMBERS BELOW}
 
 At lower coverage (i.e., 2 and 5X), UNNAMED is consistently more sensitive 
 than all other approaches across all SV types. At most, UNNAMED was 
@@ -182,11 +216,11 @@ across all SV types, whereas HYDRA and GASVPRO range from 76.9\% to 92.8\% and
 59.9\% to 91.9\%, respectively (excluding duplications for which GASVPRO is
 incapable of making predictions).
 
-Unlike the other tools compared, UNNAMED is nearly equally sensitive for 
+Unlike the other tools compared, UNNAMED has nearly equal sensitivity for 
 both smaller (i.e. < 1kb) and larger (> 1kb) events. Whereas at 10X coverage,
-UNNAMED detects 94.0\% and 94.2\% of deletions less and greater than 1kb, 
+UNNAMED detects 96.0\% and 95.0\% of deletions less and greater than 1kb, 
 respectively, GASVPRO and HYDRA each have much lower sensitivity for small
-variants than for large (50.7\% vs 86.2\% for HYDRA and 42.9\% and 85.3\% for
+variants than for large (62.0\% vs 97.0\% for HYDRA and 51.0\% and 95.0\% for
 GASVPRO). This increased sensitivity is especially important given that smaller
 SVs are much more common than larger events \cite{mills2011}.
 
@@ -195,18 +229,18 @@ SVs are much more common than larger events \cite{mills2011}.
 Improved SV discovery sensitivity is crucial for comprehensive characterizations
 of the full spectrum of genetic variation in human genomes, yet high
 sensitivity at the cost of an inflated false discovery rate (FDR) is
-undesirable given the time and cost associated with pursing
-the putative biological impact of spurious variation.
+undesirable given the time and cost associated with pursuing the putative 
+biological impact of spurious variation.
 
 We compared the FDR for each SV discovery tool using the same simulated
 SVs as described above (Table 1).The false discovery rate for all tools ranged 
-from 0.0\% to 24.1\%. Overall, DELLY had the lowest FDR across all SV types
+from 0.0\% to 24.2\%. Overall, DELLY-SR had the lowest FDR across all SV types
 and genome coverage levels, yet the conservative calling comes at the cost of
-reduced sensitivity compared to the other tools. While UNNAMED's FDR was 
+lower sensitivity compared to the other tools. While UNNAMED's FDR was 
 slightly higher than GASVPRO for deletions, its FDR was consistently 
-low (0.0\% - 4.6\%) across all SV types and coverage levels. In contrast, 
-GASVPRO had much higher FDRs for inversions and
-the FDR increased at lower coverage levels.  HYDRA had consistent FDRs across
+low (0.0\% - 5.0\%) across all SV types and coverage levels. In contrast, 
+GASVPRO had much higher FDRs for insertions and inversions and
+its FDR increased at lower coverage levels.  HYDRA had consistent FDRs across
 SV types and coverage levels (0.0\% to 8.9\%), yet these rates were always 
 higher than the analogous UNNAMED FDRs. These results indicate that UNNAMED's
 probabilistic framework afford substantial improvements in discovery
@@ -268,33 +302,76 @@ delly sr	&0.004	&0		&0		&0 \\
 
 
 \subsection{Increased breakpoint resolution}
-\textbf{Include discussion of this if Ryan resolves the issue of increased
-breakpoint resolution not correlating linearly with coverage.  To discuss as a 
-group.}
+By integrating both paired-end and split-read SV signals, the resolution of
+our predicted breakpoint intervals is increased relative to the resolution 
+yielded by examining either signal on its own (Figure 3). The biggest increase
+in resolution comes from split-read alignments, as, in principle, split-reads
+map SV breakpoints to a single base pair. In practice, however, there is
+often local alignment ambiguity at the breakpoint which reduces breakpoint 
+resolution to 2-5bp \cite{Quinlan2010}. Therefore, in order to capture all
+split-reads supporting a given breakpoint, we examine a ``window'' surrounding
+a putative breakpoint (e.g. +/- 20bp). This allows greater \emph{discovery}
+sensitivity (i.e., more alignments are included) at the cost of slightly reduced
+breakpoint \emph{resolution}. Consequently, at 2X coverage, our combined
+deletion breakpoint resolution is 42bp. However, at 20X coverage, our resolution
+increases to 5bp \textbf{ARQ: I still don't entirely understand the jump from
+42bp to 5bp at 5x versus 20x.  Seems odd.}. Importantly, the breakpoint 
+resolution for all other SV types were nearly identical to resolution for 
+deletions (data not shown).
+
 
 
 \subsection{Benchmarks using 1000 Genomes datasets}
 \textbf{Speed with 1, 2, 3, ..., 10 samples.  How many events per sample?
 Need to use both PE and SR.}
-
+To assess the utility of our framework for SV discovery in typical human genome
+sequencing datasets, we combined whole-genome alignment signals from between 1 
+and 10 samples from the 1000 Genomes Project \cite{Durbin2010}. The runtimes
+of our software ranged from X to Y minutes when exploring alignments from 1 and
+10 samples, respectively, and the maximal memory usage was Z, indicating that
+our framework provides improved SV discovery in reasonable timeframes using
+resources that are available in typical research computing environments. When
+combining alignments from all 10 samples, the median number of predicted SV
+breakpoints per sample was X, which is well in the range of SV 
+breakpoints for a typical human genome \cite{?}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
 % Discussion
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
-Points to make:\\
-1. Mention that the framework is extensible to multiple samples. \\
-2. Mention that we presented results for PE and SR, but it can be 
-improved by integrating CN, existing calls, etc.  Even though our FDR for 
-deletions is already quite low, we anticipate that it could be brought to ~0
-by integrating CN calls from another tool.\\
-3. The simulation is whole-genome unlike simulations done by other tools, 
-and as such, we feel that the results have a stronger grounding in reality
-than others.\\
-4. The tool is easy to use, runs in reasonable times, and produces highly
-sensitive and specific results.\\
-5. Utility for cancer and studies of somatic instability, etc.\\
+We have developed a general probabilistic framework for accurate SV discovery, 
+and we have demonstrated that our framework is more sensitive than existing 
+discovery tools across all SV types and coverage levels. Importantly, the
+increased sensitivity does not come at the cost of excessive spurious SV
+predictions. While our FDR was slightly higher for deletions than other tools,
+we note that the integration of third-party copy-number predictions into
+our calling framework (using the generic module, Figure 1) would bring our 
+deletion FDR to nearly zero.
+
+Given the increased sensitivity, efficiency, and ease of use of our framework, 
+we emphasize its utility for comprehensive SV discovery in human genomes. 
+Increased sensitivity is especially important for cancer studies, as tumors are 
+often comprised of highly heterogeneous genomes. As we demonstrate clearly
+superior sensitivity at low coverage (which is a proxy for low frequency 
+rearrangements), we argue that our framework well-suited to detailed studies
+	of tumor heterogeneity and somatic genome variability.\\
+
+
+
+
+% Points to make:\\
+% 1. Mention that the framework is extensible to multiple samples. \\
+% 2. Mention that we presented results for PE and SR, but it can be 
+% improved by integrating CN, existing calls, etc.  Even though our FDR for 
+% deletions is already quite low, we anticipate that it could be brought to ~0
+% by integrating CN calls from another tool.\\
+% 3. The simulation is whole-genome unlike simulations done by other tools, 
+% and as such, we feel that the results have a stronger grounding in reality
+% than others.\\
+% 4. The tool is easy to use, runs in reasonable times, and produces highly
+% sensitive and specific results.\\
+% 5. Utility for cancer and studies of somatic instability, etc.\\
 
 
 
@@ -366,7 +443,7 @@ $\langle E = b.E + c.E, l_n, r_n, v = b.v = c.v\rangle$, where
 $l_n.s = \max(b.l.s, c.l.s)$, $l_n.e = \min(b.l.e, c.l.e)$, similar for 
 $r_n$.  Once all evidence has been considered, the breakpoints in $B$ are
 enumerated.  Since each genomic interval has a probability array associated with
-it, the intervals may be trimmed to inlude only the positions that meet are
+it, the intervals may be trimmed to include only the positions that meet are
 in the top percentile (e.g., top 99.9 percent of values).
 
 \subsection{Breakpoint Evidence}
@@ -388,7 +465,7 @@ for the inclusion of any data that can provide the following functions:
 \end{itemize}
 
 To demonstrate the applicability of this abstraction, we defined three
-breakpoint evidence instances: paired end sequencing alignemnts, split read
+breakpoint evidence instances: paired end sequencing alignments, split read
 mapping, and a general breakpoint interface.  Paired end sequencing and split
 read mapping are among the most frequently used data types for breakpoint
 detection, and the general interface provides a mechanism to include any other
@@ -656,12 +733,12 @@ alignment data type in Algorithm~\ref{get_v_sr}.
 \end{algorithm}
 
 % get_bpi
-The possibility of errors in the sequencing and alignemnt processes create some
+The possibility of errors in the sequencing and alignment processes create some
 ambiguity in the exact location of the breakpoint associated with a split-read
-sequence pair.  To acount for this, each pair $\langle x_i, x_{i+1} \rangle$
+sequence pair.  To account for this, each pair $\langle x_i, x_{i+1} \rangle$
 maps to two breakpoint intervals $l$ and $r$ centered at the split. The 
 probability vectors $l.p$ and $r.p$ are highest at the midpoint and
-exponentially decreaseing toward their edges.  The size of this interval is a
+exponentially decreasing toward their edges.  The size of this interval is a
 configurable parameter $v_s$ and is based on the quality of the sample under
 consideration and the specificity of the alignment algorithm used to map the
 sequences to the reference.
@@ -672,7 +749,7 @@ is a deletion $l$ is centered at $R(x_i).e$ and $r$ at $R(x_{i+1}).s$, and when
 the breakpoint is a duplication $l$ is centered at $R(x_i).s$ and $r$ at
 $R(x_{i+1}).e$.  If the breakpoint is an inversion, $l$ and $r$ are both 
 centered ether at the start positions or end positions of $R(x_i)$ and
-$R(x_{i+1})$, respectivly.  Assuming that $R(x_i).s<R(x_{i+1}).s$, if
+$R(x_{i+1})$, respectively.  Assuming that $R(x_i).s<R(x_{i+1}).s$, if
 $R(x_i).o=+$ then $l$ and $r$ are centered at $R(x_i).e$ and  $R(x_{i+1}).e$,
 otherwise they are centered at $R(x_i).s$ and  $R(x_{i+1}).s$.  If
 $R(x_i).s>R(x_{i+1}).s$, then the conditions are swapped.
@@ -741,11 +818,6 @@ data, from known varients to tool output.
 two example, known vairents and cnv
 
 
-% is_bp
-% type
-% get_bp
-\section{Simulation Results}
-\section{TCGA Results}
 
 \bibliographystyle{plain}
 \bibliography{recomb}
