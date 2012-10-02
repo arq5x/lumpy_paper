@@ -275,15 +275,38 @@ delly sr	&0.004	&0		&0		&0 \\
 
 
 \subsection{Increased breakpoint resolution}
-\textbf{Include discussion of this if Ryan resolves the issue of increased
-breakpoint resolution not correlating linearly with coverage.  To discuss as a 
-group.}
+By integrating both paired-end and split-read SV signals, the resolution of
+our predicted breakpoint intervals is increased relative to the resolution 
+yielded by examining either signal on its own (Figure 3). The biggest increase
+in resolution comes from split-read alignments, as, in principle, split-reads
+map SV breakpoints to a single base pair. In practice, however, there is
+often local alignment ambiguity at the breakpoint which reduces breakpoint 
+resolution to 2-5bp \cite{Quinlan2010}. Therefore, in order to capture all
+split-reads supporting a given breakpoint, we examine a ``window'' surrounding
+a putative breakpoint (e.g. +/- 20bp). This allows greater \emph{discovery}
+sensitivity (i.e., more alignments are included) at the cost of slightly reduced
+breakpoint \emph{resolution}. Consequently, at 2X coverage, our combined
+deletion breakpoint resolution is 42bp. However, at 20X coverage, our resolution
+increases to 5bp \textbf{ARQ: I still don't entirely understand the jump from
+42bp to 5bp at 5x versus 20x.  Seems odd.}. Importantly, the breakpoint 
+resolution for all other SV types were nearly identical to resolution for 
+deletions (data not shown).
+
 
 
 \subsection{Benchmarks using 1000 Genomes datasets}
 \textbf{Speed with 1, 2, 3, ..., 10 samples.  How many events per sample?
 Need to use both PE and SR.}
-
+To assess the utility of our framework for SV discovery in typical human genome
+sequencing datasets, we combined whole-genome alignment signals from between 1 
+and 10 samples from the 1000 Genomes Project \cite{Durbin2010}. The runtimes
+of our software ranged from X to Y minutes when exploring alignments from 1 and
+10 samples, respectively, and the maximal memory usage was Z, indicating that
+our framework provides improved SV discovery in reasonable timeframes using
+resources that are available in typical research computing environments. When
+combining alignments from all 10 samples, the median number of predicted SV
+breakpoints per sample was X, which is well in the range of SV 
+breakpoints for a typical human genome \cite{?}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
