@@ -328,7 +328,7 @@ Increased sensitivity is especially important for cancer studies, as tumors are
 often comprised of highly heterogeneous genomes. As we demonstrate clearly
 superior sensitivity at low coverage (which is a proxy for low frequency 
 rearrangements), we argue that our framework well-suited to detailed studies
-of tumor heterogeneity and somatic genome variability.
+	of tumor heterogeneity and somatic genome variability.\\
 
 
 
@@ -416,7 +416,7 @@ $\langle E = b.E + c.E, l_n, r_n, v = b.v = c.v\rangle$, where
 $l_n.s = \max(b.l.s, c.l.s)$, $l_n.e = \min(b.l.e, c.l.e)$, similar for 
 $r_n$.  Once all evidence has been considered, the breakpoints in $B$ are
 enumerated.  Since each genomic interval has a probability array associated with
-it, the intervals may be trimmed to inlude only the positions that meet are
+it, the intervals may be trimmed to include only the positions that meet are
 in the top percentile (e.g., top 99.9 percent of values).
 
 \subsection{Breakpoint Evidence}
@@ -438,7 +438,7 @@ for the inclusion of any data that can provide the following functions:
 \end{itemize}
 
 To demonstrate the applicability of this abstraction, we defined three
-breakpoint evidence instances: paired end sequencing alignemnts, split read
+breakpoint evidence instances: paired end sequencing alignments, split read
 mapping, and a general breakpoint interface.  Paired end sequencing and split
 read mapping are among the most frequently used data types for breakpoint
 detection, and the general interface provides a mechanism to include any other
@@ -706,12 +706,12 @@ alignment data type in Algorithm~\ref{get_v_sr}.
 \end{algorithm}
 
 % get_bpi
-The possibility of errors in the sequencing and alignemnt processes create some
+The possibility of errors in the sequencing and alignment processes create some
 ambiguity in the exact location of the breakpoint associated with a split-read
-sequence pair.  To acount for this, each pair $\langle x_i, x_{i+1} \rangle$
+sequence pair.  To account for this, each pair $\langle x_i, x_{i+1} \rangle$
 maps to two breakpoint intervals $l$ and $r$ centered at the split. The 
 probability vectors $l.p$ and $r.p$ are highest at the midpoint and
-exponentially decreaseing toward their edges.  The size of this interval is a
+exponentially decreasing toward their edges.  The size of this interval is a
 configurable parameter $v_s$ and is based on the quality of the sample under
 consideration and the specificity of the alignment algorithm used to map the
 sequences to the reference.
@@ -722,7 +722,7 @@ is a deletion $l$ is centered at $R(x_i).e$ and $r$ at $R(x_{i+1}).s$, and when
 the breakpoint is a duplication $l$ is centered at $R(x_i).s$ and $r$ at
 $R(x_{i+1}).e$.  If the breakpoint is an inversion, $l$ and $r$ are both 
 centered ether at the start positions or end positions of $R(x_i)$ and
-$R(x_{i+1})$, respectivly.  Assuming that $R(x_i).s<R(x_{i+1}).s$, if
+$R(x_{i+1})$, respectively.  Assuming that $R(x_i).s<R(x_{i+1}).s$, if
 $R(x_i).o=+$ then $l$ and $r$ are centered at $R(x_i).e$ and  $R(x_{i+1}).e$,
 otherwise they are centered at $R(x_i).s$ and  $R(x_{i+1}).s$.  If
 $R(x_i).s>R(x_{i+1}).s$, then the conditions are swapped.
@@ -791,11 +791,6 @@ data, from known varients to tool output.
 two example, known vairents and cnv
 
 
-% is_bp
-% type
-% get_bp
-\section{Simulation Results}
-\section{TCGA Results}
 
 \bibliographystyle{plain}
 \bibliography{recomb}
