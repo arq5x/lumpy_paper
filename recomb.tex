@@ -313,18 +313,38 @@ breakpoints for a typical human genome \cite{?}.
 % Discussion
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
-Points to make:\\
-1. Mention that the framework is extensible to multiple samples. \\
-2. Mention that we presented results for PE and SR, but it can be 
-improved by integrating CN, existing calls, etc.  Even though our FDR for 
-deletions is already quite low, we anticipate that it could be brought to ~0
-by integrating CN calls from another tool.\\
-3. The simulation is whole-genome unlike simulations done by other tools, 
-and as such, we feel that the results have a stronger grounding in reality
-than others.\\
-4. The tool is easy to use, runs in reasonable times, and produces highly
-sensitive and specific results.\\
-5. Utility for cancer and studies of somatic instability, etc.\\
+We have developed a general probabilistic framework for accurate SV discovery, 
+and we have demonstrated that our framework is more sensitive than existing 
+discovery tools across all SV types and coverage levels. Importantly, the
+increased sensitivity does not come at the cost of excessive spurious SV
+predictions. While our FDR was slightly higher for deletions than other tools,
+we note that the integration of third-party copy-number predictions into
+our calling framework (using the generic module, Figure 1) would bring our 
+deletion FDR to nearly zero.
+
+Given the increased sensitivity, efficiency, and ease of use of our framework, 
+we emphasize its utility for comprehensive SV discovery in human genomes. 
+Increased sensitivity is especially important for cancer studies, as tumors are 
+often comprised of highly heterogeneous genomes. As we demonstrate clearly
+superior sensitivity at low coverage (which is a proxy for low frequency 
+rearrangements), we argue that our framework well-suited to detailed studies
+of tumor heterogeneity and somatic genome variability.
+
+
+
+
+% Points to make:\\
+% 1. Mention that the framework is extensible to multiple samples. \\
+% 2. Mention that we presented results for PE and SR, but it can be 
+% improved by integrating CN, existing calls, etc.  Even though our FDR for 
+% deletions is already quite low, we anticipate that it could be brought to ~0
+% by integrating CN calls from another tool.\\
+% 3. The simulation is whole-genome unlike simulations done by other tools, 
+% and as such, we feel that the results have a stronger grounding in reality
+% than others.\\
+% 4. The tool is easy to use, runs in reasonable times, and produces highly
+% sensitive and specific results.\\
+% 5. Utility for cancer and studies of somatic instability, etc.\\
 
 
 
