@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 %\usepackage[ruled,vlined]{algorithm2e}
 \usepackage[ruled,noline]{algorithm2e}
-
+\usepackage{authblk}
 
 \begin{document}
 
@@ -13,15 +13,42 @@
 % Title
 %%%%%%%%%%%%%%%%%%%%%%
 \title{A probabilistic framework for sensitive structural variant discovery}
-\author{Authors: RL, IH, AQ, others?}
-\maketitle
+%\author{Ryan M. Layer$^1$, 
+%Gabriel Robins$^1$, 
+%Ira M. Hall$^2$,
+%and
+%Aaron R. Quinlan$^3$\footnote{to whom correspondence should be addressed}}
+%
+%\address{$^{1}$Department of Computer Science, University of Virginia, Charlottesville, VA\\
+%$^{2}$Department of Biochemistry and Molecular Genetics, University of Virginia, Charlottesville, VA\\
+%$^{3}$Department of Public Health Sciences and Center for Public Health
+%Genomics, University of Virginia, Charlottesville, VA}
 
+\author[1]{Ryan M. Layer}
+\author[2]{Ira M. Hall\thanks{\mbox{Corresponding author}}}
+\author[2,3]{Aaron R, Quinlan\thanks{\mbox{Corresponding author}}}
+\affil[1]{Department of Computer Science, University of Virginia, Charlottesville, VA}
+\affil[2]{Department of Biochemistry and Molecular Genetics, University of Virginia, Charlottesville, VA}
+\affil[3]{Department of Public Health Sciences and 
+Center for Public Health Genomics, University of Virginia, Charlottesville, VA}
+
+
+\maketitle
 
 %%%%%%%%%%%%%%%%%%%%%%
 % Abstract
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Abstract}
-
+Comprehensive discovery of structural variation (SV) in human genomes from DNA
+sequencing requires the integration of multiple alignment ``signals''. However,
+owing to inherent technical challenges, most existing SV discovery approaches 
+utilize only a single signal. Existing approaches consequently suffer from
+low sensitivity, especially at low sequence coverage and for smaller SVs. We
+present a novel probabilistic SV discovery framework that is capable of
+integrating multiple SV alignment signals. We demonstrate improved sensitivity
+over extant methods by combining both paired-end and split-read alignments and
+emphasize the utility of our framework for comprehensive studies of structural
+variation in often heterogeneous tumor genomes.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -30,8 +57,8 @@
 \section{Introduction}
 
 Differences in chromosome structure are a prominent source of natural 
-genetic variation in the human population. While such structural variants (SVs),
-which include both balanced (e.g., inversions and reciprocal translocations)
+genetic variation in the human population. While such structural variants,
+including both balanced (e.g., inversions and reciprocal translocations)
 and unbalanced (e.g., deletions and duplications) genomic rearrangements, are 
 less common than other forms of genetic variation such as single-nucleotide 
 polymorphisms (SNPs), they are typically much larger, and as such, have the 
