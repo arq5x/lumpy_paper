@@ -9,3 +9,5 @@
 5. Discussion.
 
 6. Make sure methods cover the details of the simulation.
+
+7. Double-check the sensitivity and specificity numbers quoted in the text.
