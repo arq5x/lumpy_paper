@@ -170,7 +170,13 @@ We have implemented this framework into an open source C++ software package
 BAM alignment file from one or more samples.
 
 \begin{figure}
+\center{
 \includegraphics{Workflow.eps}
+}
+\caption{An example workflow for UNNAMED that uses three different singals
+(paired-end, split-read, and read-depth) from one sample, and information about
+known variants.}
+\label{workflow:fig}
 \end{figure}
 
 \subsection{Comparison of discovery performance on simulated datasets}
@@ -201,6 +207,8 @@ coverage, whereas HYDRA, the next most sensitive approach, detects 2.9\% and
 
 \begin{figure}
 \includegraphics[width=6.5in]{R/ss_sl_s-un_hy_gv_dl-r10x.eps}
+\caption{Sensitivity for UNNAMED, Hydra, GASVPro, and Delly.}
+\label{sensitivity:fig}
 \end{figure}
 
 \textbf{DOUBLE-CHECK ALL OF THE SENSITIVITY NUMBERS BELOW}
@@ -326,7 +334,7 @@ delly sr&0	  &0	&0&0	&0	  &0	&N/A  &N/A	&N/A  &0.004&0	  &0 \\
 \subsection{Increased breakpoint resolution}
 By integrating both paired-end and split-read SV signals, the resolution of
 our predicted breakpoint intervals is increased relative to the resolution 
-yielded by examining either signal on its own (Figure 3). The biggest increase
+yielded by examining either signal on its own (Figure~\ref{resolution:fig}). The biggest increase
 in resolution comes from split-read alignments, as, in principle, split-reads
 map SV breakpoints to a single base pair. In practice, however, there is
 often local alignment ambiguity at the breakpoint which reduces breakpoint 
@@ -340,6 +348,16 @@ increases to 5bp \textbf{ARQ: I still don't entirely understand the jump from
 42bp to 5bp at 5x versus 20x.  Seems odd.}. Importantly, the breakpoint 
 resolution for all other SV types were nearly identical to resolution for 
 deletions (data not shown).
+
+
+\begin{figure}
+\center{
+\includegraphics[width=2.5in]{R/resolution-un.eps}
+}
+\caption{Breakpoint resolution measured as the median interval size in bp for
+true positive deletion calls at 20x, 5x, and 2x coverage.}
+\label{resolution:fig}
+\end{figure}
 
 
 
