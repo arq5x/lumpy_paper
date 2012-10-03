@@ -64,10 +64,10 @@ less common than other forms of genetic variation such as single-nucleotide
 polymorphisms (SNPs), they are typically much larger, and as such, have the 
 potential for substantial functional consequence. Spontaneous structural
 variants underly many genomic disorders and polymorphic SVs have been shown to
-be associated with common diseases \cite{McCarroll2008}. Moreover, extensive
+be associated with common diseases \cite{mccarroll2007}. Moreover, extensive
 genomic rearrangement is a hallmark of tumor genomes, and complex rearrangements
 have been negatively correlated with a tumor's response to chemotherapy
-\cite{Rausch2012}.
+\cite{rausch2012a}.
 
 Our detailed understanding of the landscape of SV in the human genome and the
 mechanisms that form them has, in large part, been driven by advances in DNA
@@ -111,7 +111,7 @@ the resolution of predicted SV breakpoint regions.
 
 Our probabilistic framework is based upon a general representation of a SV 
 breakpoint that accommodates multiple structural rearrangement signals (for a 
-comprehensive review, see \cite{Alkan2011}). The use of a generalized framework
+comprehensive review, see \cite{alkan2011}). The use of a generalized framework
 allows all SV alignment signals to be integrated into a single discovery
 process (Methods). In turn, SV discovery is more sensitivity, 
 especially at lower coverage, since many additional SVs may be recovered that 
@@ -147,9 +147,9 @@ likelihood intervals: paired-end, split-read, and generic.  We emphasize that
 our framework is extensible to possible new alignment signals from forthcoming
 DNA sequencing technologies \cite{OxfordNanopore}. The paired-end module maps 
 the output of a paired-end sequence alignment algorithm 
-(e.g., BWA \cite{Li2009}), the split-read module maps the output of a 
-split-read sequence alignment algorithm (e.g., YAHA\cite{Faust2012}, 
-BWA-SW\cite{Li2010}), and the generic module allows users to include the result 
+(e.g., BWA \cite{li2009a}), the split-read module maps the output of a 
+split-read sequence alignment algorithm (e.g., YAHA\cite{faust2012}, 
+BWA-SW\cite{li2010}), and the generic module allows users to include the result 
 SV signal types that do not have specific module implemented (e.g., 
 \emph{a priori} knowledge such as known sites of SV, and/or output from 
 copy-number variation discovery tools).
@@ -176,13 +176,13 @@ BAM alignment file from one or more samples.
 \subsection{Comparison of discovery performance on simulated datasets}
 In order to assess the performance of our framework, we compared our discovery
 accuracy using paired-end alignments, split-read alignments, and both signals to 
-three widely used SV discovery packages: Hydra \cite{Quinlan2010},
-GASVPro \cite{Sindi2012} and DELLY \cite{Rausch2012b}. We created a simulated 
+three widely used SV discovery packages: Hydra \cite{quinlan2010b},
+GASVPro \cite{sindi2012} and DELLY \cite{rausch2012b}. We created a simulated 
 experimental genome by simulating 1000 deletions, duplications, insertions, 
 and inversions (4000 events total) throughout chromosome 10 of the hg19 genome 
 using SVsim (Faust et al, \emph{in preparation}).  For each SV event type, half
 of the variants were less than 1kb and the other half were greater than 1kb (see
-Methods for details).  We used the WGSIM \cite{Li2008} paired-end read 
+Methods for details).  We used the WGSIM (Heng Li, unpublished) paired-end read 
 simulator to \"sequence\" our simulated genome to 2, 5, and 20 fold 
 haploid coverage (Methods).
 
@@ -330,7 +330,7 @@ yielded by examining either signal on its own (Figure 3). The biggest increase
 in resolution comes from split-read alignments, as, in principle, split-reads
 map SV breakpoints to a single base pair. In practice, however, there is
 often local alignment ambiguity at the breakpoint which reduces breakpoint 
-resolution to 2-5bp \cite{Quinlan2010}. Therefore, in order to capture all
+resolution to 2-5bp \cite{quinlan2010b}. Therefore, in order to capture all
 split-reads supporting a given breakpoint, we examine a ``window'' surrounding
 a putative breakpoint (e.g. +/- 20bp). This allows greater \emph{discovery}
 sensitivity (i.e., more alignments are included) at the cost of slightly reduced
@@ -348,14 +348,14 @@ deletions (data not shown).
 Need to use both PE and SR.}
 To assess the utility of our framework for SV discovery in typical human genome
 sequencing datasets, we combined whole-genome alignment signals from between 1 
-and 10 samples from the 1000 Genomes Project \cite{Durbin2010}. The runtimes
+and 10 samples from the 1000 Genomes Project \cite{durbin2010}. The runtimes
 of our software ranged from X to Y minutes when exploring alignments from 1 and
 10 samples, respectively, and the maximal memory usage was Z, indicating that
 our framework provides improved SV discovery in reasonable time-frames using
 resources that are available in typical research computing environments. When
 combining alignments from all 10 samples, the median number of predicted SV
 breakpoints per sample was X, which is well in the range of SV 
-breakpoints for a typical human genome \cite{?}.
+breakpoints for a typical human genome \cite{mills2011}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
