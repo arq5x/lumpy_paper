@@ -1,0 +1,4 @@
+type,20xmedian,10xmedian,5xmedian,2xmedian,20xmad,10xmad,5xmad,2xmad
+del,265,314,344,351.5,32,39,22,34.5
+del,6,42,42,42,2,0,0,0
+del,5,36,42,42,1,31,0,0

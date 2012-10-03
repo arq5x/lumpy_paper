@@ -1,0 +1,5 @@
+d<-read.table("res.data",sep=",",header=T)
+b<-barplot(as.matrix(d[1:3,c(2,4,5)]),beside=T,ylim=c(1,400),log="y")
+s<-c(as.matrix(d[1:3,c(2,4,5)]))
+e<-c(as.matrix(d[1:3,c(6,8,9)]))
+arrows(b,s, b, s+e, angle=90, code=3, length=0.1)

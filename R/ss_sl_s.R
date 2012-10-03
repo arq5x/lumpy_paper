@@ -15,9 +15,9 @@ dellysr<-7
 cover<-c("20x","5x","2x")
 cover_i<-0
 
-postscript(file="ss_sl_s-un_hy_gv_dl-r10x.png",width=9,height=6,paper="special")
+postscript(file="ss_sl_s-un_hy_gv_dl-r10x.eps",width=6.5,height=4,paper="special", horizontal=F )
 #png(file="ss_sl_s-un_hy_gv_dl-r10x.png",width=10,height=4,units="in",res=300)
-#png(file="ss_sl_s-un_hy_gv_dl-r10x.png",width=9,height=6,units="in",res=300)
+#png(file="ss_sl_s-un_hy_gv_dl-r10x.png",width=6.5,height=4,units="in",res=300)
 
 #dev.new(width=16, height=4.5)
 par(
@@ -73,9 +73,9 @@ for (var in c("Deletion", "Duplication","Insertion","Inversion") ) {
 		#print(m)
 
 		if (var == "Deletion" ) {
-			b<-barplot(m,beside=TRUE,ylim=c(0,1.1),axes = F,main=cover[cover_i])
+			b<-barplot(m,beside=TRUE,ylim=c(0,1.3),axes = F,main=cover[cover_i])
 		} else {
-			b<-barplot(m,beside=TRUE,ylim=c(0,1.2),axes = F)
+			b<-barplot(m,beside=TRUE,ylim=c(0,1.3),axes = F)
 		}
 
 
@@ -88,7 +88,7 @@ for (var in c("Deletion", "Duplication","Insertion","Inversion") ) {
 
 
 		if (offset == 2 ) {
-			axis(at=c(0,0.25,0.5,0.75,1),side=2,tck=-0.025,cex.axis=0.6)
+			axis(at=c(0,0.25,0.5,0.75,1),side=2,tck=-0.025,cex.axis=0.75)
 			title(ylab=var)
 		}
 		if (var == "Inversion" ) {
@@ -114,7 +114,10 @@ for (var in c("Deletion", "Duplication","Insertion","Inversion") ) {
 
 
 
-		text(b+0.1,tmp_d+0.025,labels=round(tmp_d,2), pos=4,offset=0,cex=0.6,srt=90)
+		#text(b,tmp_d+0.025,labels=round(tmp_d,2), pos=4,offset=0,cex=0.7,srt=90)
+		#text(b+0.4,tmp_d+0.15,labels=round(tmp_d,2), pos=3,offset=0,cex=0.65,srt=90)
+
+		text(b[3,]+0.25, m[3,]+.175, labels=round(m[3,],2),cex=.75,srt=90)
 
 		#best<-sort(m[3,],decreasing=T)[1]
 		#best_i<-which(m[3,]==best)
