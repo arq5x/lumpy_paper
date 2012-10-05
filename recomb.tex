@@ -785,7 +785,7 @@ intervals are directly encoded in BEDPE ($\textsc{get\_bpi}$).
 \subsubsection{Simulation}
 
 Simulated data was used to compare the sensitivity and false discovery rate of
-UNNAMED to other SV detection algorithms that rely on either a single signal
+LUMPY to other SV detection algorithms that rely on either a single signal
 (Hydra and DELLY PE) or multiple signals (GASVPro and DELLY SR).  The seed
 sequence for all simulations was chromosome 10 from the human reference genome
 (hg19).  For each SV variety considered (deletions, duplications, insertions,
@@ -797,11 +797,11 @@ default error rate settings.  Each simulated genome was sampled to 20x, 5x, and
 2x coverage. Paired-end reads were mapped to the seed sequence with BWA using
 default parameters.  From the BWA output, all split-reads and unmapped reads
 were realigned with the split-read aligner YAHA using a word length of 11 and a
-minimum match of 15. The TWA output was used as input to UNNAMED PE
+minimum match of 15. The TWA output was used as input to LUMPU PE
 (paired-end), Hydra, DELLY (both versions) and GASVPro, the YAHA output was used
-as input to UNNAMED SR (split-read), and both BWA and YAHA output were used as
-input to UNNAMED PESR (paired-end and split-read).  In all algorithms, the
-minimum evidence threshold was four.  For UNNAMED, the turning parameters $v_l$
+as input to LUMPY SR (split-read), and both BWA and YAHA output were used as
+input to LUMPY PESR (paired-end and split-read).  In all algorithms, the
+minimum evidence threshold was four.  For LUMPY, the turning parameters $v_l$
 and $v_f$ were set to four, and alignments with mapping qualities equal to zero
 were not considered.
 
