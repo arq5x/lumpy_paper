@@ -44,15 +44,18 @@ Center for Public Health Genomics, University of Virginia, Charlottesville, VA}
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Abstract}
 Comprehensive discovery of structural variation (SV) in human genomes from DNA
-sequencing requires the integration of multiple alignment ``signals''. However,
-owing to inherent technical challenges, most existing SV discovery approaches 
-utilize only a single signal. Existing approaches consequently suffer from
-low sensitivity, especially at low sequence coverage and for smaller SVs. We
-present a novel probabilistic SV discovery framework that is capable of
-integrating multiple SV alignment signals. We demonstrate improved sensitivity
-over extant methods by combining both paired-end and split-read alignments and
-emphasize the utility of our framework for comprehensive studies of structural
-variation in often heterogeneous tumor genomes.
+sequencing requires the integration of multiple alignment ``signals'' including
+read-pair, split-read and read-depth. However, owing to inherent technical 
+challenges, most existing SV discovery approaches utilize only one signal and
+consequently suffer from low sensitivity, especially at low sequence coverage 
+and for smaller SVs. We present a novel and extremely flexible probabilistic 
+SV discovery framework that is capable of integrating any number of SV 
+detection signals including those generated from read alignments or prior
+evidence. We demonstrate improved sensitivity over extant methods by combining 
+both paired-end and split-read alignments and emphasize the utility of our 
+framework for comprehensive studies of structural variation in often 
+heterogeneous tumor genomes. We further discuss the utility of this generic 
+approach for probabilistic interpretation of diverse genomic data.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
