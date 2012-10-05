@@ -1,12 +1,11 @@
+0. Content issues
+	- we don't currently discuss the multi-sample abilities
+
 1. Figure says sub-class, text says module.
 
 2. Figure legends.
 
 3. References.
-
-4. Abstract.
-
-5. Discussion.
 
 6. Make sure methods cover the details of the simulation.
 

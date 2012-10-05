@@ -468,8 +468,8 @@ percentile (e.g., top 99.9 percent of values).
 
 \subsection{Breakpoint Evidence}
 
-To link the specifics of data like paired end sequencing alignments and split
-read mappings to the general breakpoint type defined above, we define an
+To combine the distinct SV alignment signals like paired-end and split-read 
+alignments to the general breakpoint type defined above, we define an
 abstract breakpoint evidence type.  This abstract type defines an interface that
 allows for the inclusion of any data that can provide the following functions:
 
@@ -493,7 +493,7 @@ breakpoint information such as known breakpoints or output from other analysis
 pipelines.  As technologies evolve and our understanding of structural
 variations improves, other instances can be easily added.
 
-\subsubsection{Paired End Sequencing Alignments}
+\subsubsection{Paired-End Sequencing Alignments}
 
 Paired end sequencing involves fragmenting genomic DNA into roughly uniformly
 sized segments, and sequencing both ends of each segment to produce the sequence
@@ -701,7 +701,7 @@ Algorithm~\label{get_bpi}).
 
 %The weight of each sequence pair is an input parameter $v_w$.
 
-\subsubsection{Split Read Alignments}
+\subsubsection{Split-Read Alignments}
 
 A split read alignment is a single DNA fragment $X$ that does not uniquely align
 to the reference genome, but contains a contiguous ordered set of substrings
