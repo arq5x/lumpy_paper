@@ -104,10 +104,10 @@ genomic events in cancer and in other studies of somatic genome variability.
 In this manuscript, we describe a general probabilistic framework for 
 integrating diverse SV alignment signals from multiple sources. Our framework is
 motivated by the relatively poor sensitivity of SV discovery algorithms
-that utilize only one type (e.g., paired-end mapping) of alignment signal.
-By providing a flexible framework that can exploit \emph{all} alignment signals,
-we seek to improve both discovery sensitivity and specificity and to increase 
-the resolution of predicted SV breakpoint regions.
+that utilize only one type of alignment signal. By providing a flexible 
+framework that can exploit \emph{all} alignment signals, we seek to improve 
+both discovery sensitivity and specificity and to increase the resolution of 
+predicted SV breakpoint regions.
 
 \subsection{Overview of the probabilistic framework}
 %1. Walk through the concept (use the high-level figure that Ryan is working on).
@@ -120,12 +120,12 @@ Our probabilistic framework is based upon a general representation of a SV
 breakpoint that accommodates multiple structural rearrangement signals (for a 
 comprehensive review, see \cite{alkan2011}). The use of a generalized framework
 allows all SV alignment signals to be integrated into a single discovery
-process (Methods). In turn, SV discovery is more sensitivity, 
+process (Methods). In turn, SV discovery is more sensitive, 
 especially at lower coverage, since many additional SVs may be recovered that 
-would otherwise be missed were only a single SV alignment signal considered. 
+would otherwise be missed were only a single alignment signal considered. 
 Similarly, greater specificity can be realized by asserting that, assuming 
 reasonable sequence coverage, evidence for true SV should be apparent through 
-more than one alignment signal.
+multiple alignment signals.
 
 We define a breakpoint as a pair of bases that are adjacent in a sample genome 
 but not in a reference genome.  To account for the varying level noise inherent 
@@ -141,7 +141,7 @@ likelihood that the given position represents one end of the breakpoint.
 %enough evidence from any one signal to be distinguished from the noise, but do
 %have evidence from multiple signals.
 
-Our framework provides distinct sublasses that map signals from each alignment 
+Our framework provides distinct modules that map signals from each alignment 
 evidence type to our common probability interval pair.  For example, paired-end 
 sequence alignments are projected to a pair of intervals upstream or downstream 
 (depending on orientation) of the mapped ends (Figure 1).  The size of the 
@@ -149,15 +149,15 @@ intervals and the likelihood at each position is based on the size distribution
 of the sample's DNA fragment library.  The distinct advantage of this approach
 is that \emph{any} type of evidence can be considered, as long there exists
 a direct mapping from the alignment signal to breakpoint likelihoods.
-Here we provide three subclasses for converting SV alignment signals to breakpoint
+Here we provide three modules for converting SV alignment signals to breakpoint
 likelihood intervals: paired-end, split-read, and generic.  We emphasize that
 our framework is extensible to possible new alignment signals from forthcoming
-DNA sequencing technologies \cite{OxfordNanopore}. The paired-end subclasses maps 
+DNA sequencing technologies \cite{OxfordNanopore}. The paired-end module maps 
 the output of a paired-end sequence alignment algorithm 
-(e.g., BWA \cite{li2009a}), the split-read subclasses maps the output of a 
+(e.g., BWA \cite{li2009a}), the split-read module maps the output of a 
 split-read sequence alignment algorithm (e.g., YAHA\cite{faust2012}, 
-BWA-SW\cite{li2010}), and the generic subclasses allows users to include the result 
-SV signal types that do not have specific subclasses implemented (e.g., 
+BWA-SW\cite{li2010}), and the generic module allows users to include the result 
+SV signal types that do not have specific modules implemented (e.g., 
 \emph{a priori} knowledge such as known sites of SV, and/or output from 
 copy-number variation discovery tools).
 
@@ -173,17 +173,20 @@ regions is improved by trimming the positions with probabilities
 in the lower (e.g., the lowest 5 percent) percentile of the distribution.
 
 We have implemented this framework into an open source C++ software package 
-(UNNAMED) that is capable of detecting SV from multiple alignment signals in 
+(LUMPY) that is capable of detecting SV from multiple alignment signals in 
 BAM alignment file from one or more samples.
 
 \begin{figure}
 \center{
 \includegraphics{Workflow.eps}
 }
-\caption{Two example workflows for UNNAMED. One workflow (left) that uses three
-different singals (paired-end, split-read, and read-depth) from one sample, and
-information about known variants, and other (right) that uses a single signal
-(paired-end) from three different samples.}
+\caption{The LUMPY probabilistic SV discovery framework. Two example workflows 
+are presented using extensible SV discovery framework. One workflow (left) 
+uses three different signals (paired-end, split-read, and read-depth) from one 
+sample, as well as prior knowledge regarding known variant sites. The second
+workflow (right) integrates a single signal type (in this case, paired-end) 
+from three different samples to improve discovery among sensitivity among all
+three samples.}
 \label{workflow:fig}
 \end{figure}
 
