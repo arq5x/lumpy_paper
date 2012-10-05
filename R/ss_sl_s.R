@@ -97,7 +97,7 @@ for (var in c("Deletion", "Duplication","Insertion","Inversion") ) {
 			at=c(2.5,6.5,10.5,14.5,18.5,22.5,26.5),
 			tick = FALSE,		
 			las=2,
-			labels=c("pe","sr","pesr","hydra","gasvpro","delly pe","delly sr"))
+			labels=c("lumpy-pe","lumpy-sr","lumpy","hydra","gasvpro","delly-pe","delly-sr"))
 		}
 		lines(c(1,35),replicate(2,0.25),col="white")
 		lines(c(1,35),replicate(2,0.5),col="white")

@@ -45,7 +45,7 @@ axis(srt=45,side=1,
 	at=c(1:3,5:7,9:11)+0.5,
 	tick = FALSE,		
 	las=2,
-	labels=c("pe","sr","pesr","pe","sr","pesr","pe","sr","pesr")
+	labels=c("LUMPY-PE","LUMPY-SR","LUMPY","LUMPY-PE","LUMPY-SR","LUMPY","LUMPY-PE","LUMPY-SR","LUMPY")
 )
 text(c(2.5,6.5,10.5), 500, labels=c("20x","5x","2x"))
 

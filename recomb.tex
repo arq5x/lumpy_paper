@@ -220,13 +220,13 @@ coverage, whereas HYDRA, the next most sensitive approach, detects 2.9\% and
 \begin{figure}
 \includegraphics[width=6.5in]{R/ss_sl_s-un_hy_gv_dl-r10x.eps}
 \caption{SV discovery sensitivity for LUMPY, HYDRA, GASVPRO, and DELLY for
-different SV types across multiple genome coverage levels. LUMPY-PE reflects
-LUMPY sensitivity using paired-end alignments only; LUMPY-SR reflects
-LUMPY sensitivity using split-read alignments only; LUMPY describes sensitivity
-using both paired-end and split-read alignments; DELLY-PE reflects
-DELLY sensitivity using paired-end alignments only; DELLY-SR reflects
-DELLY sensitivity using both paired-end alignments and split-read refinement
-of paired-end SV predictions.}
+different SV types across multiple genome coverage levels. \emph{lumpy-pe} 
+reflects LUMPY sensitivity using paired-end alignments only; \emph{lumpy-sr} 
+reflects LUMPY sensitivity using split-read alignments only; \emph{lumpy} 
+describes sensitivity using both paired-end and split-read alignments; 
+\emph{delly-pe} reflects DELLY sensitivity using paired-end alignments only; 
+\emph{delly-sr} reflects DELLY sensitivity using both paired-end alignments 
+and split-read refinement of paired-end SV predictions.}
 \label{sensitivity:fig}
 \end{figure}
 
@@ -336,13 +336,13 @@ sensitivity while maintaining low false discovery rates.
 			&\multicolumn{3}{|c}{Insertions}
 			&\multicolumn{3}{|c}{Inversions} \\
 \cline{1-13}
-LUMPY-PE		&0.014&0.008&0&0.004&0	  &0    &0.042&0.016&0	  &0.004&0	  &0 \\
-LUMPY-SR      &0.006&0	&0&0.005&0.003&0	&0.013&0.006&0	  &0.004&0.001&0 \\
-LUMPY    &0.018&0.005&0&0.007&0.001&0	&0.05 &0.009&0	  &0.009&0.002&0 \\
-HYDRA   &0.038&0.006&0&0.03 &0.011&0	&0.089&0.034&0.03 &0.054&0.006&0 \\
-GASVPRO	&0	  &0	&0&N/A  &N/A  &N/A  &0.242&0.065&0.041&0.005&0.082&0.079 \\
-DELLY-PE	&0.002&0	&0&0	&0	  &0.028&N/A  &N/A	&N/A  &0	&0	  &0 \\
-DELLY-SR	&0	  &0	&0&0	&0	  &0	&N/A  &N/A	&N/A  &0.004&0	  &0 \\ 
+lumpy-pe		&0.014&0.008&0&0.004&0	  &0    &0.042&0.016&0	  &0.004&0	  &0 \\
+lumpy-sr      &0.006&0	&0&0.005&0.003&0	&0.013&0.006&0	  &0.004&0.001&0 \\
+lumoy    &0.018&0.005&0&0.007&0.001&0	&0.05 &0.009&0	  &0.009&0.002&0 \\
+hydra   &0.038&0.006&0&0.03 &0.011&0	&0.089&0.034&0.03 &0.054&0.006&0 \\
+gasvpro	&0	  &0	&0&N/A  &N/A  &N/A  &0.242&0.065&0.041&0.005&0.082&0.079 \\
+delly-pe	&0.002&0	&0&0	&0	  &0.028&N/A  &N/A	&N/A  &0	&0	  &0 \\
+delly-sr	&0	  &0	&0&0	&0	  &0	&N/A  &N/A	&N/A  &0.004&0	  &0 \\ 
 
 \end{tabular}
 \label{table:fdr}
@@ -352,8 +352,9 @@ DELLY-SR	&0	  &0	&0&0	&0	  &0	&N/A  &N/A	&N/A  &0.004&0	  &0 \\
 \subsection{Increased breakpoint resolution}
 By integrating both paired-end and split-read SV signals, the resolution of
 our predicted breakpoint intervals is increased relative to the resolution 
-yielded by examining either signal on its own (Figure~\ref{resolution:fig}). The biggest increase
-in resolution comes from split-read alignments, as, in principle, split-reads
+yielded by examining either signal on its own (Figure~\ref{resolution:fig}). 
+The biggest increase in resolution comes from split-read alignments, as, 
+in principle, split-reads
 map SV breakpoints to a single base pair. In practice, however, there is
 often local alignment ambiguity at the breakpoint which reduces breakpoint 
 resolution to 2-5bp \cite{quinlan2010b}. Therefore, in order to capture all
@@ -362,10 +363,8 @@ a putative breakpoint (e.g. +/- 20bp). This allows greater \emph{discovery}
 sensitivity (i.e., more alignments are included) at the cost of slightly reduced
 breakpoint \emph{resolution}. Consequently, at 2X coverage, our combined
 deletion breakpoint resolution is 42bp. However, at 20X coverage, our resolution
-increases to 5bp \textbf{ARQ: I still don't entirely understand the jump from
-42bp to 5bp at 5x versus 20x.  Seems odd.}. Importantly, the breakpoint 
-resolution for all other SV types were nearly identical to resolution for 
-deletions (data not shown).
+increases to 5bp. Importantly, the breakpoint resolution for all other SV types 
+were nearly identical to resolution for deletions (data not shown).
 
 
 \begin{figure}
