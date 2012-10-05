@@ -191,16 +191,17 @@ three samples.}
 \end{figure}
 
 \subsection{Comparison of discovery performance on simulated datasets}
-In order to assess the performance of our framework, we compared our discovery
-accuracy using paired-end alignments, split-read alignments, and both signals to 
-three widely used SV discovery packages: Hydra \cite{quinlan2010b},
-GASVPro \cite{sindi2012} and DELLY \cite{rausch2012b}. We created a simulated 
-experimental genome by simulating 1000 deletions, duplications, insertions, 
-and inversions (4000 events total) throughout chromosome 10 of the hg19 genome 
+In order to assess the performance of our framework, we compared LUMPY's 
+discovery accuracy using paired-end (PE) alignments, split-read (SR) alignments, 
+and both signals to three widely used SV discovery packages: 
+Hydra \cite{quinlan2010b}, GASVPro \cite{sindi2012} and 
+DELLY \cite{rausch2012b}. We created a simulated experimental genome by 
+simulating 1000 deletions, duplications, insertions, and inversions 
+(4000 events total) throughout chromosome 10 of the hg19 genome 
 using SVsim (Faust et al, \emph{in preparation}).  For each SV event type, half
 of the variants were less than 1kb and the other half were greater than 1kb (see
 Methods for details).  We used the WGSIM (Heng Li, unpublished) paired-end read 
-simulator to \"sequence\" our simulated genome to 2, 5, and 20 fold 
+simulator to \"sequence\" the simulated genome to 2, 5, and 20 fold 
 haploid coverage (Methods).
 
 \subsection{Discovery sensitivity}
@@ -218,7 +219,8 @@ coverage, whereas HYDRA, the next most sensitive approach, detects 2.9\% and
 
 \begin{figure}
 \includegraphics[width=6.5in]{R/ss_sl_s-un_hy_gv_dl-r10x.eps}
-\caption{Sensitivity for UNNAMED, Hydra, GASVPro, and Delly.}
+\caption{SV discovery sensitivity for LUMPY, Hydra, GASVPro, and DELLY among
+multiple SV types and genome coverage levels.}
 \label{sensitivity:fig}
 \end{figure}
 
