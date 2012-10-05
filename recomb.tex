@@ -209,39 +209,37 @@ The predicted SV breakpoints from each discovery approach were compared to the
 simulated breakpoints in order to measure each approach's sensitivity (Figure 2) 
 and false discovery rate (FDR; Table 1). Not surprisingly, for each approach,
 breakpoint discovery sensitivity increases with greater genome coverage.
-Moreover, UNNAMED's sensitivity is improved when both paired-end and split-read
+Moreover, LUMPY's sensitivity is improved when both paired-end and split-read
 alignments are integrated into the probabilistic framework, as compared to 
-discovery with either signal alone. In addition, UNNAMED is consistently more
+discovery with either signal alone. In addition, LUMPY is consistently more
 sensitive than other approaches at lower coverage for all SV types. For example,
-UNNAMED detects 24.5\% and 79.3\% of all deletions at 2 and 5 fold genome
+LUMPY detects 24.5\% and 79.3\% of all deletions at 2 and 5 fold genome
 coverage, whereas HYDRA, the next most sensitive approach, detects 2.9\% and
 30.9\%, respectively. 
 
 \begin{figure}
 \includegraphics[width=6.5in]{R/ss_sl_s-un_hy_gv_dl-r10x.eps}
-\caption{SV discovery sensitivity for LUMPY, Hydra, GASVPro, and DELLY among
-multiple SV types and genome coverage levels.}
+\caption{SV discovery sensitivity for LUMPY, Hydra, GASVPro, and DELLY for
+different SV types across multiple genome coverage levels.}
 \label{sensitivity:fig}
 \end{figure}
 
-\textbf{DOUBLE-CHECK ALL OF THE SENSITIVITY NUMBERS BELOW}
-
-At lower coverage (i.e., 2 and 5X), UNNAMED is consistently more sensitive 
-than all other approaches across all SV types. At most, UNNAMED was 
-8.4 times more sensitive than the second most
-sensitive approach at low coverage (UNNAMED 24.5\% vs. HYDRA 2.9\% for deletions
-at 2X coverage). At worst, it was 1.2 times more sensitive for inversions at
-5X coverage (UNNAMED 96.4\% vs. GASVPRO 80.8\%). At higher (20X) coverage, 
-UNNAMED's sensitivity advantage persists; it ranges from 95.6\% to 97.2\% 
+At lower coverage (i.e., 2 and 5X), LUMPY is consistently more sensitive 
+than all other approaches across all SV types. At most, LUMPY was 
+8.4 times more sensitive than the second most sensitive approach at low 
+coverage (LUMPY 24.5\% vs. HYDRA 2.9\% for deletions at 2X coverage). At worst, 
+it was 1.3 times more sensitive for inversions at 5X coverage (LUMPY 94.7\% vs. 
+GASVPRO 70.9\%). At higher (20X) coverage, 
+LUMPY's sensitivity advantage persists; it ranges from 95.2\% to 96.9\% 
 across all SV types, whereas HYDRA and GASVPRO range from 76.9\% to 92.8\% and
 59.9\% to 91.9\%, respectively (excluding duplications for which GASVPRO is
 incapable of making predictions).
 
-Unlike the other tools compared, UNNAMED has nearly equal sensitivity for 
-both smaller (i.e. < 1kb) and larger (> 1kb) events. Whereas at 10X coverage,
-UNNAMED detects 96.0\% and 95.0\% of deletions less and greater than 1kb, 
+Unlike the other tools compared, LUMPY has nearly equal sensitivity for 
+both smaller (i.e. < 1kb) and larger (> 1kb) events. Whereas at 20X coverage,
+LUMPY detects 95.6\% and 94.6\% of deletions less and greater than 1kb, 
 respectively, GASVPRO and HYDRA each have much lower sensitivity for small
-variants than for large (62.0\% vs 97.0\% for HYDRA and 51.0\% and 95.0\% for
+variants than for large (62.3\% vs 97.1\% for HYDRA and 50.7\% and 94.6\% for
 GASVPRO). This increased sensitivity is especially important given that smaller
 SVs are much more common than larger events \cite{mills2011}.
 
