@@ -1,11 +1,14 @@
 \documentclass[11pt]{article}
-\usepackage{fullpage}
+%\usepackage{fullpage}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+
 \usepackage{multirow}
 \usepackage{amsmath}
 \usepackage{graphicx}
 %\usepackage[ruled,vlined]{algorithm2e}
 \usepackage[ruled,noline]{algorithm2e}
 \usepackage{authblk}
+\usepackage[titletoc]{appendix}
 
 \begin{document}
 
@@ -25,6 +28,7 @@
 %Genomics, University of Virginia, Charlottesville, VA}
 
 \author[1]{Ryan M. Layer}
+\author[1]{Greg G. Faust}
 \author[2]{Ira M. Hall\thanks{\mbox{Corresponding author}}}
 \author[2,3]{Aaron R, Quinlan\thanks{\mbox{Corresponding author}}}
 \affil[1]{Department of Computer Science, University of Virginia, Charlottesville, VA}
@@ -134,7 +138,7 @@ likelihood that the given position represents one end of the breakpoint.
 %enough evidence from any one signal to be distinguished from the noise, but do
 %have evidence from multiple signals.
 
-Our framework provides distinct modules that map signals from each alignment 
+Our framework provides distinct sublasses that map signals from each alignment 
 evidence type to our common probability interval pair.  For example, paired-end 
 sequence alignments are projected to a pair of intervals upstream or downstream 
 (depending on orientation) of the mapped ends (Figure 1).  The size of the 
@@ -142,15 +146,15 @@ intervals and the likelihood at each position is based on the size distribution
 of the sample's DNA fragment library.  The distinct advantage of this approach
 is that \emph{any} type of evidence can be considered, as long there exists
 a direct mapping from the alignment signal to breakpoint likelihoods.
-Here we provide three modules for converting SV alignment signals to breakpoint
+Here we provide three subclasses for converting SV alignment signals to breakpoint
 likelihood intervals: paired-end, split-read, and generic.  We emphasize that
 our framework is extensible to possible new alignment signals from forthcoming
-DNA sequencing technologies \cite{OxfordNanopore}. The paired-end module maps 
+DNA sequencing technologies \cite{OxfordNanopore}. The paired-end subclasses maps 
 the output of a paired-end sequence alignment algorithm 
-(e.g., BWA \cite{li2009a}), the split-read module maps the output of a 
+(e.g., BWA \cite{li2009a}), the split-read subclasses maps the output of a 
 split-read sequence alignment algorithm (e.g., YAHA\cite{faust2012}, 
-BWA-SW\cite{li2010}), and the generic module allows users to include the result 
-SV signal types that do not have specific module implemented (e.g., 
+BWA-SW\cite{li2010}), and the generic subclasses allows users to include the result 
+SV signal types that do not have specific subclasses implemented (e.g., 
 \emph{a priori} knowledge such as known sites of SV, and/or output from 
 copy-number variation discovery tools).
 
@@ -170,7 +174,14 @@ We have implemented this framework into an open source C++ software package
 BAM alignment file from one or more samples.
 
 \begin{figure}
+\center{
 \includegraphics{Workflow.eps}
+}
+\caption{Two example workflows for UNNAMED. One workflow (left) that uses three
+different singals (paired-end, split-read, and read-depth) from one sample, and
+information about known variants, and other (right) that uses a single signal
+(paired-end) from three different samples.}
+\label{workflow:fig}
 \end{figure}
 
 \subsection{Comparison of discovery performance on simulated datasets}
@@ -201,6 +212,8 @@ coverage, whereas HYDRA, the next most sensitive approach, detects 2.9\% and
 
 \begin{figure}
 \includegraphics[width=6.5in]{R/ss_sl_s-un_hy_gv_dl-r10x.eps}
+\caption{Sensitivity for UNNAMED, Hydra, GASVPro, and Delly.}
+\label{sensitivity:fig}
 \end{figure}
 
 \textbf{DOUBLE-CHECK ALL OF THE SENSITIVITY NUMBERS BELOW}
@@ -326,7 +339,7 @@ delly sr&0	  &0	&0&0	&0	  &0	&N/A  &N/A	&N/A  &0.004&0	  &0 \\
 \subsection{Increased breakpoint resolution}
 By integrating both paired-end and split-read SV signals, the resolution of
 our predicted breakpoint intervals is increased relative to the resolution 
-yielded by examining either signal on its own (Figure 3). The biggest increase
+yielded by examining either signal on its own (Figure~\ref{resolution:fig}). The biggest increase
 in resolution comes from split-read alignments, as, in principle, split-reads
 map SV breakpoints to a single base pair. In practice, however, there is
 often local alignment ambiguity at the breakpoint which reduces breakpoint 
@@ -340,6 +353,16 @@ increases to 5bp \textbf{ARQ: I still don't entirely understand the jump from
 42bp to 5bp at 5x versus 20x.  Seems odd.}. Importantly, the breakpoint 
 resolution for all other SV types were nearly identical to resolution for 
 deletions (data not shown).
+
+
+\begin{figure}
+\center{
+\includegraphics[width=2.5in]{R/resolution-un.eps}
+}
+\caption{Breakpoint resolution measured as the median interval size in bp for
+true positive deletion calls at 20x, 5x, and 2x coverage.}
+\label{resolution:fig}
+\end{figure}
 
 
 
@@ -368,7 +391,7 @@ discovery tools across all SV types and coverage levels. Importantly, the
 increased sensitivity does not come at the cost of excessive spurious SV
 predictions. While our FDR was slightly higher for deletions than other tools,
 we note that the integration of third-party copy-number predictions into
-our calling framework (using the generic module, Figure 1) would bring our 
+our calling framework (using the generic subclasses, Figure 1) would bring our 
 deletion FDR to nearly zero.
 
 Given the increased sensitivity, efficiency, and ease of use of our framework, 
@@ -411,7 +434,7 @@ as an interface between specific evidence subtypes (e.g., paired-end sequence
 alignments and split-read mappings) and the breakpoint type.  Any class of
 evidence for which these functions can be defined may be included in our
 framework.  To demonstrate the applicability of this abstraction, we defined
-three breakpoint evidence subtypes: paired end sequencing, split read mapping,
+three breakpoint evidence subtypes: paired-end sequencing, split-read mapping,
 and a general breakpoint interface. 
 
 Since our framework combines evidence from multiple classes, it extends
@@ -459,7 +482,8 @@ $\textsc{Duplication}$, etc.)
 If there exits two breakpoints $b$ and $c$ in the set of all breakpoints $B$
 where $b$ and $c$  intersect ($b.r$ intersects $c.r$, $b.l$ intersects $c.r$,
 and $b.v = c.v$), then $b$ and $c$ are {\em merged} into interval $m$, $b$ and
-$c$ are removed from $B$, and $m$ is placed into $B$.  The merged breakpoint $m$ is defined as $\langle E = b.E + c.E, l_n, r_n, v = b.v = c.v\rangle$, where 
+$c$ are removed from $B$, and $m$ is placed into $B$.  The merged breakpoint $m$ 
+is defined as $\langle E = b.E + c.E, l_n, r_n, v = b.v = c.v\rangle$, where 
 $l_n.s = \max(b.l.s, c.l.s)$, $l_n.e = \min(b.l.e, c.l.e)$, similar for $r_n$.
 Once all evidence has been considered, the breakpoints in $B$ are enumerated.
 Since each genomic interval has a probability array associated with it, the
@@ -485,8 +509,8 @@ allows for the inclusion of any data that can provide the following functions:
 \end{itemize}
 
 To demonstrate the applicability of this abstraction, we defined three
-breakpoint evidence instances: paired end sequencing alignments, split read
-mapping, and a general breakpoint interface.  Paired end sequencing and split
+breakpoint evidence instances: paired-end sequencing alignments, split-read
+mapping, and a general breakpoint interface.  Paired-end sequencing and split
 read mapping are among the most frequently used data types for breakpoint
 detection, and the general interface provides a mechanism to include any other
 breakpoint information such as known breakpoints or output from other analysis
@@ -495,7 +519,7 @@ variations improves, other instances can be easily added.
 
 \subsubsection{Paired-End Sequencing Alignments}
 
-Paired end sequencing involves fragmenting genomic DNA into roughly uniformly
+Paired-end sequencing involves fragmenting genomic DNA into roughly uniformly
 sized segments, and sequencing both ends of each segment to produce the sequence
 pair $\langle x,y \rangle$.  The ends of the pair are
 aligned to a reference genome $R(x)=<o,s,e>$, where $o=+|-$ indicates the
@@ -549,7 +573,7 @@ reflects spread in the data.
 %		\uElse
 %			{\Return \textsc{false}\;}
 %	}
-%	\caption{Breakpoint evidence function that determines if a paired end
+%	\caption{Breakpoint evidence function that determines if a paired-end
 %			 sequencing alignment contains evidence of a break point.}
 %    \label{is_bp}
 %\end{algorithm}
@@ -565,13 +589,13 @@ match, then the breakpoint was caused by an inversion event, and if the
 $R(x).o=-$ and $R(y).o=+$ then there was a duplication event.  When $R(x).o=+$
 and $R(y).o=-$, the breakpoint variety is ambiguous between an insertion and a
 deletion.  This ambiguity is also true for other types of evidence types (e.g.,
-split read mappings).  While it may be possible to determine which event caused
+split-read mappings).  While it may be possible to determine which event caused
 the breakpoint in a post-processing step, breakpoint correlation is a complex
 process and is beyond the scope of this framework.  Since we cannot distinguish
 between the two varieties, any pair with a $+/-$ orientation configuration is
 marked as a deletion.  
 %Given $R(x).o$ and $R(y).o$, we can define the
-%function $\textsc{get\_v()}$ for the paired end sequence alignment
+%function $\textsc{get\_v()}$ for the paired-end sequence alignment
 %data type in Algorithm~\ref{get_v}.
 
 %\begin{algorithm}[H]
@@ -592,7 +616,7 @@ marked as a deletion.
 %			{\Return \textsc{Deletion}\;}
 %	}
 %	\caption{Breakpoint evidence function that determines the breakpoint variety
-%			 for paired end sequencing alignments.}
+%			 for paired-end sequencing alignments.}
 %    \label{get_v}
 %\end{algorithm}
 
@@ -637,8 +661,154 @@ we can estimate its distribution by constructing a frequency-based cumulative
 distribution $D$ of fragment lengths from the same sample that was used to find
 $\overline{l}$ and $\overline{s}$, where $D(j)$ gives the proportion of the
 sample with fragment length greater than $j$(Algorithm~\ref{get_one_bpi} and
-Algorithm~\label{get_bpi}).
+Algorithm~\ref{get_bpi}).
 
+% get_w
+
+%The weight of each sequence pair is an input parameter $v_w$.
+
+\subsubsection{Split-Read Alignments}
+
+A split-read alignment is a single DNA fragment $X$ that does not uniquely align
+to the reference genome, but contains a contiguous ordered set of substrings
+$(x_1, x_2, \dots, x_n)$ where $X=x_1x_2\dots x_n$, each substring aligns
+uniquely to the reference $R(x_i)=\langle o,s,e \rangle$, and adjacent
+substrings align to non-adjacent location in the reference genome
+$R(x_{i}).e \neq R(x_{i+1}).s + 1$ for $1\leq i \leq n-1$. A single split-read
+alignment maps to a set of adjacent split-read sequence pairs 
+$(\langle x_1 , x_2 \rangle, \langle x_2, x_3 \rangle, \dots ,
+\langle x_{n-1},x_n \rangle)$, and each pair $\langle x_i,x_{i+1} \rangle$ is
+considered individually.
+
+% is_bp
+By definition, a split-read mapping is evidence of a breakpoint and therefore
+the function $\textsc{is\_bp}$ trivially returns $\textsc{true}$.
+
+% get_v
+Both orientation and mapping location must be considered to infer the breakpoint
+variety for $\langle x_i,x_{i+1} \rangle$.  When the orientations match
+$R(x_{i}).o=R(x_{i+1}).o$, the event was either a deletion or
+a duplication.  Assuming the $R(x_{i}).o=R(x_{i+1}).o=+$, 
+$R(x_{i}).s<R(x_{i+1}).s$ indicates a gap caused by a deletion and 
+$R(x_{i}).s>R(x_{i+1}).s$ indicated a repeated sequenced caused by a
+duplication.   These observations are flipped when orientations
+$R(x_{i}).o=R(x_{i+1}).o=-$.  Similar to paired-end alignments, we do not mark
+breakpoints as insertions since we cannot distinguish between deletions
+and insertions.  When the orientations do not match $R(x_{i}).o \ne
+R(x_{i+1}).o$, the event was an inversion and the mapping locations do not need
+to be considered.
+% Given $R(x_i).o$, $R(x_i).s$, $R(x_{i+1}).o$, and $R(x_{i+1}).s$,
+%we can define the function $\textsc{get\_v()}$ for the paired-end sequence
+%alignment data type in Algorithm~\ref{get_v_sr}.
+%
+%\begin{algorithm}[H]
+%    \DontPrintSemicolon
+%    \footnotesize
+%	\KwIn{Reference genome $R$, 
+%		  Sequence pairs $\langle x,y \rangle$}
+%    \KwOut{Breakpoint variety for $\langle x,y \rangle$}
+%    \BlankLine
+%    \textbf{Function} $\textsc{get\_v}$\;
+%	\Begin{
+%		\uIf{$R(x_i).o \ne R(x_{i+1}).o$}
+%			{\Return \textsc{Inversion}\;}
+%		\uElseIf{$R(x_i).o=R(x_{i+1}).o=+ \textbf{ and } R(x_i).s<R(x_{i+1}).s$}
+%			{\Return \textsc{Deletion}\;}
+%		\uElseIf{$R(x_i).o=R(x_{i+1}).o=- \textbf{ and } R(x_i).s>R(x_{i+1}).s$}
+%			{\Return \textsc{Deletion}\;}
+%		\uElseIf{$R(x_i).o=R(x_{i+1}).o=+ \textbf{ and } R(x_i).s>R(x_{i+1}).s$}
+%			{\Return \textsc{Duplication}\;}
+%		\uElseIf{$R(x_i).o=R(x_{i+1}).o=- \textbf{ and } R(x_i).s<R(x_{i+1}).s$}
+%			{\Return \textsc{Duplication}\;}
+%	}
+%	\caption{Breakpoint evidence function that determines the breakpoint variety
+%			 for split-read alignments.}
+%    \label{get_v_sr}
+%\end{algorithm}
+
+% get_bpi
+The possibility of errors in the sequencing and alignment processes create some
+ambiguity in the exact location of the breakpoint associated with a split-read
+sequence pair.  To account for this, each pair $\langle x_i, x_{i+1} \rangle$
+maps to two breakpoint intervals $l$ and $r$ centered at the split. The 
+probability vectors $l.p$ and $r.p$ are highest at the midpoint and
+exponentially decreasing toward their edges.  The size of this interval is a
+configurable parameter $v_s$ and is based on the quality of the sample under
+consideration and the specificity of the alignment algorithm used to map the
+sequences to the reference.
+
+Depending the breakpoint variety, the intervals $l$ and $r$ are centered on
+either the start or the end of $R(x_i)$ and $R(x_{i+1})$.  When the breakpoint
+is a deletion $l$ is centered at $R(x_i).e$ and $r$ at $R(x_{i+1}).s$, and when
+the breakpoint is a duplication $l$ is centered at $R(x_i).s$ and $r$ at
+$R(x_{i+1}).e$.  If the breakpoint is an inversion, $l$ and $r$ are both 
+centered either at the start positions or end positions of $R(x_i)$ and
+$R(x_{i+1})$, respectively.  Assuming that $R(x_i).s<R(x_{i+1}).s$, if
+$R(x_i).o=+$ then $l$ and $r$ are centered at $R(x_i).e$ and  $R(x_{i+1}).e$,
+otherwise they are centered at $R(x_i).s$ and  $R(x_{i+1}).s$.  If
+$R(x_i).s>R(x_{i+1}).s$, then the conditions are swapped
+(Algorithm~\ref{get_bpi_sr}).
+
+
+% get_w
+
+%The weight of each sequence pair is an input parameter $v_w$.
+
+\subsubsection{Generic Evidence}
+
+The generic evidence subclass provides a mechanism to directly encode breakpoint
+intervals using the BEDPE format~\cite{quinlan2010a}.  BEDPE is an extension of
+the popular BED format that provides a means to specify a pair of genomic
+coordinates, in this case the pair is a breakpoint.  This subclass extends our
+framework to include SV signal types that do not have a specific subclass
+implemented yet.  For example, a copy number variation prediction algorithm may
+report segments of the genome that are either duplicated or deleted.  This
+signal can be included in the analysis by expanding the edges of the predicted
+intervals to create a breakpoints, and encoding that breakpoints in BEDPE format.
+Each BEDPE entry is assumed to be real breakpoint($\textsc{is\_bp}$), the
+variety is encoded in the auxiarly fields in BEDPE ($\textsc{get\_v}$), and the
+intervals are directly encoded in BEDPE ($\textsc{get\_bpi}$).
+
+
+\subsubsection{Simulation}
+
+Simulated data was used to compare the sensitivity and false discovery rate of
+UNNAMED to other SV detection algorithms that rely on either a single signal
+(Hydra and DELLY PE) or multiple signals (GASVPro and DELLY SR).  The seed
+sequence for all simulations was chromosome 10 from the human reference genome
+(hg19).  For each SV variety considered (deletions, duplications, insertions,
+and inversions), we used SVsim [XX] to simulate a new version of the seed that
+contained 1000 randomly placed, non-overlapping variants ranging between 100 bp
+and 10000 bp. Next, wgsim [XX] was used to sample pair-end reads with a 150bp
+read length, 500 bp mean outer distance with a 50 bp standard deviation, and
+default error rate settings.  Each simulated genome was sampled to 20x, 5x, and
+2x coverage. Paired-end reads were mapped to the seed sequence with BWA using
+default parameters.  From the BWA output, all split-reads and unmapped reads
+were realigned with the split-read aligner YAHA using a word length of 11 and a
+minimum match of 15. The TWA output was used as input to UNNAMED PE
+(paired-end), Hydra, DELLY (both versions) and GASVPro, the YAHA output was used
+as input to UNNAMED SR (split-read), and both BWA and YAHA output were used as
+input to UNNAMED PESR (paired-end and split-read).  In all algorithms, the
+minimum evidence threshold was four.  For UNNAMED, the turning parameters $v_l$
+and $v_f$ were set to four, and alignments with mapping qualities equal to zero
+were not considered.
+
+The reads predicted by each algorithm were compared to the events produced by
+SVsim.  A true positive was a predicted breakpoint that intersected both ends of
+a simulated breakpoint, all other predictions were considered to be false
+positives, and all other missed simulated events were false negatives.  Since
+the output of DELLY is a single interval, we took the 100 bp regions flanking
+the ends of the predicted interval as the predicted breakpoint.  A similar
+conversion was performed for Hydra.
+
+
+\bibliographystyle{ieeetr}
+\bibliography{recomb}
+
+\appendix
+\section{Algorithms}
+
+\subsection{Paired-End Sequencing Alignments}
 \begin{algorithm}[H]
     \DontPrintSemicolon
     \footnotesize
@@ -697,91 +867,8 @@ Algorithm~\label{get_bpi}).
     \label{get_bpi}
 \end{algorithm}
 
-% get_w
-
-%The weight of each sequence pair is an input parameter $v_w$.
 
 \subsubsection{Split-Read Alignments}
-
-A split read alignment is a single DNA fragment $X$ that does not uniquely align
-to the reference genome, but contains a contiguous ordered set of substrings
-$(x_1, x_2, \dots, x_n)$ where $X=x_1x_2\dots x_n$, each substring aligns
-uniquely to the reference $R(x_i)=\langle o,s,e \rangle$, and adjacent
-substrings align to non-adjacent location in the reference genome
-$R(x_{i}).e \neq R(x_{i+1}).s + 1$ for $1\leq i \leq n-1$. A single split read
-alignment maps to a set of adjacent split-read sequence pairs 
-$(\langle x_1 , x_2 \rangle, \langle x_2, x_3 \rangle, \dots ,
-\langle x_{n-1},x_n \rangle)$, and each pair $\langle x_i,x_{i+1} \rangle$ is
-considered individually.
-
-% is_bp
-By definition, a split-read mapping is evidence of a breakpoint and therefore
-the function $\textsc{is\_bp}$ trivially returns $\textsc{true}$.
-
-% get_v
-Both orientation and mapping location must be considered to infer the breakpoint
-variety for $\langle x_i,x_{i+1} \rangle$.  When the orientations match
-$R(x_{i}).o=R(x_{i+1}).o$, the event was either a deletion or
-a duplication.  Assuming the $R(x_{i}).o=R(x_{i+1}).o=+$, 
-$R(x_{i}).s<R(x_{i+1}).s$ indicates a gap caused by a deletion and 
-$R(x_{i}).s>R(x_{i+1}).s$ indicated a repeated sequenced caused by a
-duplication.   These observations are flipped when orientations
-$R(x_{i}).o=R(x_{i+1}).o=-$.  Similar to paired end alignments, we do not mark
-breakpoints as insertions since we cannot distinguish between deletions
-and insertions.  When the orientations do not match $R(x_{i}).o \ne
-R(x_{i+1}).o$, the event was an inversion and the mapping locations do not need
-to be considered.
-% Given $R(x_i).o$, $R(x_i).s$, $R(x_{i+1}).o$, and $R(x_{i+1}).s$,
-%we can define the function $\textsc{get\_v()}$ for the paired end sequence
-%alignment data type in Algorithm~\ref{get_v_sr}.
-%
-%\begin{algorithm}[H]
-%    \DontPrintSemicolon
-%    \footnotesize
-%	\KwIn{Reference genome $R$, 
-%		  Sequence pairs $\langle x,y \rangle$}
-%    \KwOut{Breakpoint variety for $\langle x,y \rangle$}
-%    \BlankLine
-%    \textbf{Function} $\textsc{get\_v}$\;
-%	\Begin{
-%		\uIf{$R(x_i).o \ne R(x_{i+1}).o$}
-%			{\Return \textsc{Inversion}\;}
-%		\uElseIf{$R(x_i).o=R(x_{i+1}).o=+ \textbf{ and } R(x_i).s<R(x_{i+1}).s$}
-%			{\Return \textsc{Deletion}\;}
-%		\uElseIf{$R(x_i).o=R(x_{i+1}).o=- \textbf{ and } R(x_i).s>R(x_{i+1}).s$}
-%			{\Return \textsc{Deletion}\;}
-%		\uElseIf{$R(x_i).o=R(x_{i+1}).o=+ \textbf{ and } R(x_i).s>R(x_{i+1}).s$}
-%			{\Return \textsc{Duplication}\;}
-%		\uElseIf{$R(x_i).o=R(x_{i+1}).o=- \textbf{ and } R(x_i).s<R(x_{i+1}).s$}
-%			{\Return \textsc{Duplication}\;}
-%	}
-%	\caption{Breakpoint evidence function that determines the breakpoint variety
-%			 for split-read alignments.}
-%    \label{get_v_sr}
-%\end{algorithm}
-
-% get_bpi
-The possibility of errors in the sequencing and alignment processes create some
-ambiguity in the exact location of the breakpoint associated with a split-read
-sequence pair.  To account for this, each pair $\langle x_i, x_{i+1} \rangle$
-maps to two breakpoint intervals $l$ and $r$ centered at the split. The 
-probability vectors $l.p$ and $r.p$ are highest at the midpoint and
-exponentially decreasing toward their edges.  The size of this interval is a
-configurable parameter $v_s$ and is based on the quality of the sample under
-consideration and the specificity of the alignment algorithm used to map the
-sequences to the reference.
-
-Depending the breakpoint variety, the intervals $l$ and $r$ are centered on
-either the start or the end of $R(x_i)$ and $R(x_{i+1})$.  When the breakpoint
-is a deletion $l$ is centered at $R(x_i).e$ and $r$ at $R(x_{i+1}).s$, and when
-the breakpoint is a duplication $l$ is centered at $R(x_i).s$ and $r$ at
-$R(x_{i+1}).e$.  If the breakpoint is an inversion, $l$ and $r$ are both 
-centered either at the start positions or end positions of $R(x_i)$ and
-$R(x_{i+1})$, respectively.  Assuming that $R(x_i).s<R(x_{i+1}).s$, if
-$R(x_i).o=+$ then $l$ and $r$ are centered at $R(x_i).e$ and  $R(x_{i+1}).e$,
-otherwise they are centered at $R(x_i).s$ and  $R(x_{i+1}).s$.  If
-$R(x_i).s>R(x_{i+1}).s$, then the conditions are swapped.
-
 
 \begin{algorithm}[H]
     \DontPrintSemicolon
@@ -831,53 +918,6 @@ $R(x_i).s>R(x_{i+1}).s$, then the conditions are swapped.
 	}
 	\caption{Breakpoint evidence function that maps a sequence pair alignment to
 			a breakpoint interval.}
-    \label{get_bp_sr}
+    \label{get_bpi_sr}
 \end{algorithm}
-
-% get_w
-
-%The weight of each sequence pair is an input parameter $v_w$.
-
-\subsubsection{Generic Evidence}
-
-The generic evidence subclass provides a mechanism to include a wide variety of
-data, from known variants to tool output.
-
-two example, known variants and CNV
-
-\subsubsection{Simulation}
-
-Simulated data was used to compare the sensitivity and false discovery rate of
-UNNAMED to other SV detection algorithms that rely on either a single signal
-(Hydra and DELLY PE) or multiple signals (GASVPro and DELLY SR).  The seed
-sequence for all simulations was chromosome 10 from the human reference genome
-(hg19).  For each SV variety considered (deletions, duplications, insertions,
-and inversions), we used SVsim [XX] to simulate a new version of the seed that
-contained 1000 randomly placed, non-overlapping variants ranging between 100 bp
-and 10000 bp. Next, wgsim [XX] was used to sample pair-end reads with a 150bp
-read length, 500 bp mean outer distance with a 50 bp standard deviation, and
-default error rate settings.  Each simulated genome was sampled to 20x, 5x, and
-2x coverage. Paired-end reads were mapped to the seed sequence with BWA using
-default parameters.  From the BWA output, all split-reads and unmapped reads
-were realigned with the split-read aligner YAHA using a word length of 11 and a
-minimum match of 15. The TWA output was used as input to UNNAMED PE
-(paired-end), Hydra, DELLY (both versions) and GASVPro, the YAHA output was used
-as input to UNNAMED SR (split-read), and both BWA and YAHA output were used as
-input to UNNAMED PESR (paired-end and split-read).  In all algorithms, the
-minimum evidence threshold was four.  For UNNAMED, the turning parameters $v_l$
-and $v_f$ were set to four, and alignments with mapping qualities equal to zero
-were not considered.
-
-The reads predicted by each algorithm were compared to the events produced by
-SVsim.  A true positive was a predicted breakpoint that intersected both ends of
-a simulated breakpoint, all other predictions were considered to be false
-positives, and all other missed simulated events were false negatives.  Since
-the output of DELLY is a single interval, we took the 100 bp regions flanking
-the ends of the predicted interval as the predicted breakpoint.  A similar
-conversion was performed for Hydra.
-
-
-\bibliographystyle{plain}
-\bibliography{recomb}
-
 \end{document}
