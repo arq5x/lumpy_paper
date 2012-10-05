@@ -70,7 +70,7 @@ and unbalanced (e.g., deletions and duplications) genomic rearrangements, are
 less common than other forms of genetic variation such as single-nucleotide 
 polymorphisms (SNPs), they are typically much larger, and as such, have the 
 potential for substantial functional consequence. Spontaneous structural
-variants underly many genomic disorders and polymorphic SVs have been shown to
+variants underlie many genomic disorders and polymorphic SVs have been shown to
 be associated with common diseases \cite{mccarroll2007}. Moreover, extensive
 genomic rearrangement is a hallmark of tumor genomes, and complex rearrangements
 have been negatively correlated with a tumor's response to chemotherapy
@@ -79,17 +79,17 @@ have been negatively correlated with a tumor's response to chemotherapy
 Our detailed understanding of the landscape of SV in the human genome and the
 mechanisms that form them has, in large part, been driven by advances in DNA
 sequencing technologies. However, the discovery and genotyping of SV is 
-fundamentally more complicated than SNPs; SVs vary both in size and state, 
-and SV discovery algorithms must incorporate several distinct alignment 
-``signals'' (or a lack thereof) for accurate discovery. Consequently, the
-accuracy of existing SV discovery tools remains substantially lower than for
-smaller genetic variants. More importantly, most existing SV discovery
-tools examine a single type of alignment signal (e.g., either ``split'' or 
-``discordant'' alignments). Discovery sensitivity is typically limited as a 
-result. The impact of this reduced sensitivity is particularly acute in studying 
-cancer, as tumor genomes are often highly heterogeneous, meaning that even 
-when cancer genomes are sequenced to high coverage, less frequent rearrangements 
-will only be detectable via a small number of sequence alignments. Therefore,
+fundamentally more complicated than SNPs; SVs vary considerably in size, 
+architecture and genomic context, and SV discovery algorithms must incorporate 
+several distinct alignment ``signals'' (or a lack thereof) for accurate 
+discovery. Consequently, the accuracy of existing SV discovery tools remains 
+substantially lower than for smaller genetic variants. More importantly, most 
+existing SV discovery tools utilize only a single SV detection signal, typically
+discordant paired-end alignment or read-depth. Discovery sensitivity is 
+often limited as a result. The impact of this reduced sensitivity is 
+particularly acute in studies of heterogenous cancer samples where where genomic 
+rearrangements may be present in a subset of cells and thus difficult to 
+detect at standard levels of sequence coverage. Therefore,
 even as the throughput and cost of DNA sequencing continues to improve, the
 need for sensitive methods will remain in order to detect evermore rare
 genomic events in cancer and in other studies of somatic genome variability.
