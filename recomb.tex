@@ -242,7 +242,8 @@ across all SV types, whereas HYDRA and GASVPRO range from 76.9\% to 92.8\% and
 incapable of making predictions).
 
 Unlike the other tools compared, LUMPY has nearly equal sensitivity for 
-both smaller (i.e. < 1kb) and larger (> 1kb) events. Whereas at 20X coverage,
+both smaller (i.e. \textless 1kb) and larger (\textgreater 1kb) events. 
+Whereas at 20X coverage,
 LUMPY detects 95.6\% and 94.6\% of deletions less and greater than 1kb, 
 respectively, GASVPRO and HYDRA each have much lower sensitivity for small
 variants than for large (62.3\% vs 97.1\% for HYDRA and 50.7\% and 94.6\% for
@@ -261,13 +262,13 @@ We compared the FDR for each SV discovery tool using the same simulated
 SVs as described above (Table 1).The false discovery rate for all tools ranged 
 from 0.0\% to 24.2\%. Overall, DELLY-SR had the lowest FDR across all SV types
 and genome coverage levels, yet the conservative calling comes at the cost of
-lower sensitivity compared to the other tools. While UNNAMED's FDR was 
+lower sensitivity compared to the other tools. While LUMPY's FDR was 
 slightly higher than GASVPRO for deletions, its FDR was consistently 
 low (0.0\% - 5.0\%) across all SV types and coverage levels. In contrast, 
 GASVPRO had much higher FDRs for insertions and inversions and
 its FDR increased at lower coverage levels.  HYDRA had consistent FDRs across
 SV types and coverage levels (0.0\% to 8.9\%), yet these rates were always 
-higher than the analogous UNNAMED FDRs. These results indicate that UNNAMED's
+higher than the analogous LUMPY FDRs. These results indicate that LUMPY's
 probabilistic framework afford substantial improvements in discovery
 sensitivity while maintaining low false discovery rates.
 
@@ -335,13 +336,13 @@ sensitivity while maintaining low false discovery rates.
 			&\multicolumn{3}{|c}{Insertions}
 			&\multicolumn{3}{|c}{Inversions} \\
 \cline{1-13}
-pe		&0.014&0.008&0&0.004&0	  &0    &0.042&0.016&0	  &0.004&0	  &0 \\
-sr      &0.006&0	&0&0.005&0.003&0	&0.013&0.006&0	  &0.004&0.001&0 \\
-pesr    &0.018&0.005&0&0.007&0.001&0	&0.05 &0.009&0	  &0.009&0.002&0 \\
-hydra   &0.038&0.006&0&0.03 &0.011&0	&0.089&0.034&0.03 &0.054&0.006&0 \\
-gasvpro &0	  &0	&0&N/A  &N/A  &N/A  &0.242&0.065&0.041&0.005&0.082&0.079 \\
-delly pe&0.002&0	&0&0	&0	  &0.028&N/A  &N/A	&N/A  &0	&0	  &0 \\
-delly sr&0	  &0	&0&0	&0	  &0	&N/A  &N/A	&N/A  &0.004&0	  &0 \\ 
+LUMPY-PE		&0.014&0.008&0&0.004&0	  &0    &0.042&0.016&0	  &0.004&0	  &0 \\
+LUMPY-SR      &0.006&0	&0&0.005&0.003&0	&0.013&0.006&0	  &0.004&0.001&0 \\
+LUMPY    &0.018&0.005&0&0.007&0.001&0	&0.05 &0.009&0	  &0.009&0.002&0 \\
+HYDRA   &0.038&0.006&0&0.03 &0.011&0	&0.089&0.034&0.03 &0.054&0.006&0 \\
+GASVPRO	&0	  &0	&0&N/A  &N/A  &N/A  &0.242&0.065&0.041&0.005&0.082&0.079 \\
+DELLY-PE	&0.002&0	&0&0	&0	  &0.028&N/A  &N/A	&N/A  &0	&0	  &0 \\
+DELLY-SR	&0	  &0	&0&0	&0	  &0	&N/A  &N/A	&N/A  &0.004&0	  &0 \\ 
 
 \end{tabular}
 \label{table:fdr}
