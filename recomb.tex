@@ -406,6 +406,25 @@ we note that the integration of third-party copy-number predictions into
 our calling framework (using the generic subclasses, Figure 1) would bring our 
 deletion FDR to nearly zero.
 
+A notable difference between the LUMPY framework and other tools that can
+incorporate multiple signals such as GASVPro (paired-end and read depth) and
+DELLY (paired-end and split reads), is the point at which the second (or third)
+signal is considered.  LUMPY pools all signals before making breakpoint
+predictions, while both GASVPro and DELLY consider signals in order; the
+paired-end signal is used call breakpoints and the second signal refines those
+calls.  An implication of ordering signal consideration is that the extra
+signals cannot increase the number of true positive predictions.  In a case
+where evidence for a particular breakpoint exists in multiple signals’ data, but
+not above some threshold in any one signal, ordered consideration can not
+combine those signals to make a true positive prediction.  In contrast, when
+signals are pooled before predictions are made the amount of evidence for that
+breakpoint can meet the threshold.  This is especially important for cases of
+low sequence coverage; our results show that true positives for deletions at 2x
+coverage increased over six fold when both paired-end and split-read signals are
+considered  (from 32 in paired-end and 39 in split-read to 245 in paired-end and
+split-read).
+
+
 Given the increased sensitivity, efficiency, and ease of use of our framework, 
 we emphasize its utility for comprehensive SV discovery in human genomes. 
 Increased sensitivity is especially important for cancer studies, as tumors are 
