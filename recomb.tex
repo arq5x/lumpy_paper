@@ -43,19 +43,33 @@ Center for Public Health Genomics, University of Virginia, Charlottesville, VA}
 % Abstract
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Abstract}
+%Comprehensive discovery of structural variation (SV) in human genomes from DNA
+%sequencing requires the integration of multiple alignment ``signals'' including
+%read-pair, split-read and read-depth. However, owing to inherent technical 
+%challenges, most existing SV discovery approaches utilize only one signal and
+%consequently suffer from low sensitivity, especially at low sequence coverage 
+%and for smaller SVs. We present a novel and extremely flexible probabilistic 
+%SV discovery framework that is capable of integrating any number of SV 
+%detection signals including those generated from read alignments or prior
+%evidence. We demonstrate improved sensitivity over extant methods by combining 
+%both paired-end and split-read alignments and emphasize the utility of our 
+%framework for comprehensive studies of structural variation in often 
+%heterogeneous tumor genomes. We further discuss the utility of this generic 
+%approach for probabilistic interpretation of diverse genomic data.
+
 Comprehensive discovery of structural variation (SV) in human genomes from DNA
-sequencing requires the integration of multiple alignment ``signals'' including
-read-pair, split-read and read-depth. However, owing to inherent technical 
+sequencing requires the integration of multiple alignment signals including
+read-pair, split-read and read-depth. However, owing to inherent technical
 challenges, most existing SV discovery approaches utilize only one signal and
-consequently suffer from low sensitivity, especially at low sequence coverage 
-and for smaller SVs. We present a novel and extremely flexible probabilistic 
-SV discovery framework that is capable of integrating any number of SV 
-detection signals including those generated from read alignments or prior
-evidence. We demonstrate improved sensitivity over extant methods by combining 
-both paired-end and split-read alignments and emphasize the utility of our 
-framework for comprehensive studies of structural variation in often 
-heterogeneous tumor genomes. We further discuss the utility of this generic 
-approach for probabilistic interpretation of diverse genomic data.
+consequently suffer from low sensitivity, especially at low sequence coverage
+and for smaller SVs. We present a novel and extremely flexible probabilistic SV
+discovery framework that is capable of integrating any number of SV detection
+signals including those generated from read alignments or prior evidence. We
+demonstrate improved sensitivity over extant methods by combining paired-end and
+split-read alignments and emphasize the utility of our framework for
+comprehensive studies of structural variation in heterogeneous tumor genomes. We
+further discuss the utility of this generic approach for probabilistic
+interpretation of diverse genomic data.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -63,36 +77,75 @@ approach for probabilistic interpretation of diverse genomic data.
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-Differences in chromosome structure are a prominent source of natural 
-genetic variation in the human population. While such structural variants,
-including both balanced (e.g., inversions and reciprocal translocations)
-and unbalanced (e.g., deletions and duplications) genomic rearrangements, are 
-less common than other forms of genetic variation such as single-nucleotide 
-polymorphisms (SNPs), they are typically much larger, and as such, have the 
-potential for substantial functional consequence. Spontaneous structural
-variants underlie many genomic disorders and polymorphic SVs have been shown to
-be associated with common diseases \cite{mccarroll2007}. Moreover, extensive
-genomic rearrangement is a hallmark of tumor genomes, and complex rearrangements
-have been negatively correlated with a tumor's response to chemotherapy
-\cite{rausch2012a}.
+%Differences in chromosome structure are a prominent source of natural 
+%genetic variation in the human population. While such structural variants,
+%including both balanced (e.g., inversions and reciprocal translocations)
+%and unbalanced (e.g., deletions and duplications) genomic rearrangements, are 
+%less common than other forms of genetic variation such as single-nucleotide 
+%polymorphisms (SNPs), they are typically much larger, and as such, have the 
+%potential for substantial functional consequence. Spontaneous structural
+%variants underlie many genomic disorders and polymorphic SVs have been shown to
+%be associated with common diseases \cite{mccarroll2007}. Moreover, extensive
+%genomic rearrangement is a hallmark of tumor genomes, and complex rearrangements
+%have been negatively correlated with a tumor's response to chemotherapy
+%\cite{rausch2012a}.
+%
+%Our detailed understanding of the landscape of SV in the human genome and the
+%mechanisms that form them has, in large part, been driven by advances in DNA
+%sequencing technologies. However, the discovery and genotyping of SV is 
+%fundamentally more complicated than SNPs; SVs vary considerably in size, 
+%architecture and genomic context, and SV discovery algorithms must incorporate 
+%several distinct alignment ``signals'' (or a lack thereof) for accurate 
+%discovery. Consequently, the accuracy of existing SV discovery tools remains 
+%substantially lower than for smaller genetic variants. More importantly, most 
+%existing SV discovery tools utilize only a single SV detection signal,
+%typically discordant paired-end alignment or read-depth. Discovery sensitivity
+%is often limited as a result. The impact of this reduced sensitivity is
+%particularly acute in studies of heterogenous cancer samples where where
+%genomic rearrangements may be present in a subset of cells and thus difficult
+%to detect at standard levels of sequence coverage. Therefore, even as the
+%throughput and cost of DNA sequencing continues to improve, the need for
+%sensitive methods will remain in order to detect evermore rare genomic events
+%in cancer and in other studies of somatic genome variability.
 
-Our detailed understanding of the landscape of SV in the human genome and the
-mechanisms that form them has, in large part, been driven by advances in DNA
-sequencing technologies. However, the discovery and genotyping of SV is 
-fundamentally more complicated than SNPs; SVs vary considerably in size, 
-architecture and genomic context, and SV discovery algorithms must incorporate 
-several distinct alignment ``signals'' (or a lack thereof) for accurate 
-discovery. Consequently, the accuracy of existing SV discovery tools remains 
-substantially lower than for smaller genetic variants. More importantly, most 
-existing SV discovery tools utilize only a single SV detection signal, typically
-discordant paired-end alignment or read-depth. Discovery sensitivity is 
-often limited as a result. The impact of this reduced sensitivity is 
-particularly acute in studies of heterogenous cancer samples where where genomic 
-rearrangements may be present in a subset of cells and thus difficult to 
-detect at standard levels of sequence coverage. Therefore,
-even as the throughput and cost of DNA sequencing continues to improve, the
-need for sensitive methods will remain in order to detect evermore rare
-genomic events in cancer and in other studies of somatic genome variability.
+Differences in chromosome structure are a prominent source of human genetic
+variation. These differences are collectively known as structural variation
+(SV), a term that encompasses diverse genomic alterations including deletion,
+tandem duplication, insertion, inversion, translocation or complex rearrangement
+of relatively large (e.g., $>$100bp) segments. While SVs are considerably less
+common than smaller-scale forms of genetic variation such as single nucleotide
+polymorphisms (SNPs), they have much greater functional potential due to their
+larger size, and they have a greater ability to alter gene structure or dosage.
+Indeed, de novo SVs contribute to numerous sporadic human disorders, polymorphic
+SVs are increasingly found to be associated with common disease, and tumor
+``driver'' mutations often arise through gene amplification, deletion or fusion.
+
+Our current understanding of the prevalence and impact of SV has
+been driven by recent advances in genome sequencing. However, the discovery and
+genotyping of SV from DNA sequence data has lagged far behind SNPs because it is
+fundamentally more complicated; SVs vary considerably in size, architecture and
+genomic context, and read alignment accuracy is compromised near SVs by the
+presence of novel junctions (i.e., breakpoints) between the ``test'' and
+reference genomes. Moreover, SVs generate multiple alignment signals including
+altered sequence coverage within duplications or deletions (read-depth),
+breakpoint-spanning paired-end reads that align discordantly relative to each
+other (read-pair), and breakpoint-containing single reads that align in split
+fashion to discontiguous loci in the reference genome (split-reads). These
+diverse alignment signals are difficult to integrate and most algorithms use
+just one. Other methods use two signals, but to our knowledge these limit
+initial detection to one signal and use the other to add confidence, refine
+breakpoint intervals, or genotype additional 
+samples~\cite{rausch2012b,sindi2012,handsaker2011}. The main consequence of
+limiting detection to one signal is reduced sensitivity. The impact of this is
+particularly acute in datasets with low genome coverage or in studies of
+heterogeneous cancer samples where any given rearrangement may only be present
+in a small subset of cells.
+
+Here, we present a novel probabilistic SV discovery framework that
+naturally integrates multiple SV detection signals, including those generated
+from read alignments or prior evidence, and that can readily adapt to any
+additional source of evidence that may become available with future
+technological advances. 
 
 
 
@@ -353,28 +406,27 @@ delly-sr	&0	  &0	&0&0	&0	  &0	&N/A  &N/A	&N/A  &0.004&0	  &0 \\
 By integrating both paired-end and split-read SV signals, the resolution of
 our predicted breakpoint intervals is increased relative to the resolution 
 yielded by examining either signal on its own (Figure~\ref{resolution:fig}). 
-The biggest increase in resolution comes from split-read alignments, as, 
-in principle, split-reads
-map SV breakpoints to a single base pair. In practice, however, there is
-often local alignment ambiguity at the breakpoint which reduces breakpoint 
-resolution to 2-5bp \cite{quinlan2010b}. Therefore, in order to capture all
-split-reads supporting a given breakpoint, we examine a ``window'' surrounding
-a putative breakpoint (e.g. +/- 20bp). This allows greater \emph{discovery}
-sensitivity (i.e., more alignments are included) at the cost of slightly reduced
-breakpoint \emph{resolution}. Consequently, at 2X coverage, our combined
-deletion breakpoint resolution is 42bp. However, at 20X coverage, our resolution
-increases to 5bp. Importantly, the breakpoint resolution for all other SV types 
-were nearly identical to resolution for deletions (data not shown).
+The biggest increase in resolution comes from split-read alignments, as, in
+principle, split-reads map SV breakpoints to a single base pair. In practice,
+however, there is often local alignment ambiguity at the breakpoint which
+reduces breakpoint resolution to 2-5bp~\cite{quinlan2010b}. Therefore, in order
+to capture all split-reads supporting a given breakpoint, we examine a
+``window'' surrounding a putative breakpoint (e.g. +/- 20bp). This allows
+greater \emph{discovery} sensitivity (i.e., more alignments are included) at the
+cost of slightly reduced breakpoint \emph{resolution}. Consequently, at 2X
+coverage, our combined deletion breakpoint resolution is 42bp. However, at 20X
+coverage, our resolution increases to 5bp. Importantly, the breakpoint
+resolution for all other SV types were nearly identical to resolution for
+deletions (data not shown).  
 
-
-\begin{figure}
-\center{
-\includegraphics[width=2.5in]{R/resolution-un.eps}
-}
-\caption{Breakpoint resolution measured as the median interval size in bp for
-true positive deletion calls at 20x, 5x, and 2x coverage.}
-\label{resolution:fig}
-\end{figure}
+%\begin{figure}
+%\center{
+%\includegraphics[width=2.5in]{R/resolution-un.eps}
+%}
+%\caption{Breakpoint resolution measured as the median interval size in bp for
+%true positive deletion calls at 20x, 5x, and 2x coverage.}
+%\label{resolution:fig}
+%\end{figure}
 
 
 
@@ -407,22 +459,31 @@ our calling framework (using the generic subclasses, Figure 1) would bring our
 deletion FDR to nearly zero.
 
 A notable difference between the LUMPY framework and other tools that can
-incorporate multiple signals such as GASVPro (paired-end and read depth) and
-DELLY (paired-end and split reads), is the point at which the second (or third)
-signal is considered.  LUMPY pools all signals before making breakpoint
+incorporate multiple signals such as GASVPro (paired-end and read-depth) and
+DELLY (paired-end and split-read), is the point at which the second (or third)
+signal is considered. LUMPY pools all signals before making breakpoint
 predictions, while both GASVPro and DELLY consider signals in order; the
-paired-end signal is used call breakpoints and the second signal refines those
-calls.  An implication of ordering signal consideration is that the extra
-signals cannot increase the number of true positive predictions.  In a case
-where evidence for a particular breakpoint exists in multiple signals’ data, but
-not above some threshold in any one signal, ordered consideration can not
-combine those signals to make a true positive prediction.  In contrast, when
-signals are pooled before predictions are made the amount of evidence for that
-breakpoint can meet the threshold.  This is especially important for cases of
-low sequence coverage.  Our simulation results showed that true positives for
-deletions at 2x coverage decreased by 60 percent when signals were ordered (from
-45 in DELLY PE to 18 in DELLY SR), and increased over six fold when both signals
-were pooled  (from 32 in LUMPY-PE and 39 in LUMPY-SR to 245 in LUMPY-PESR).
+paired-end signal is used to call breakpoints and the second signal refines
+those calls. An implication of ordered signal consideration is that the extra
+signals cannot increase the number of true positive predictions. In a case where
+evidence for a particular breakpoint exists in multiple signals, but not above
+some threshold in any one signal, ordered consideration can not combine those
+signals to make a true positive prediction. In contrast, when signals are pooled
+before predictions are made the amount of evidence for that breakpoint can meet
+the threshold. This is especially important for cases of low sequence coverage.
+Our simulation results showed that true positives for deletions at 2x coverage
+decreased by 60 percent when signals were ordered (from 45 in DELLY PE to 18 in
+DELLY SR), and increased over six fold when both signals were pooled (from 32 in
+LUMPY-PE and 39 in LUMPY-SR to 245 in LUMPY-PESR).
+
+\textbf{In this paragraph we want to 1. summarize why this is an advance for SV
+detection, with regards to sensitivity, high resolution breakpoint prediction,
+using all possible signals from current and future sequence data, and
+incorporating prior probability basied on external sources of evidence ; 2.
+point out how useful the lumpy framework is for integrating different types of
+genomic data (ChIP-seq, etc?). If we don't include point2, it needs to be
+removed from the abstract.}
+
 
 Given the increased sensitivity, efficiency, and ease of use of our framework, 
 we emphasize its utility for comprehensive SV discovery in human genomes. 
