@@ -12,6 +12,9 @@
 
 \begin{document}
 
+% to do:
+%	1. fig 1 uses "subclass" - should be "module" 
+
 %%%%%%%%%%%%%%%%%%%%%%
 % Title
 %%%%%%%%%%%%%%%%%%%%%%
@@ -61,14 +64,15 @@ Comprehensive discovery of structural variation (SV) in human genomes from DNA
 sequencing requires the integration of multiple alignment signals including
 read-pair, split-read and read-depth. However, owing to inherent technical
 challenges, most existing SV discovery approaches utilize only one signal and
-consequently suffer from low sensitivity, especially at low sequence coverage
-and for smaller SVs. We present a novel and extremely flexible probabilistic SV
-discovery framework that is capable of integrating any number of SV detection
-signals including those generated from read alignments or prior evidence. We
-demonstrate improved sensitivity over extant methods by combining paired-end and
-split-read alignments and emphasize the utility of our framework for
-comprehensive studies of structural variation in heterogeneous tumor genomes. We
-further discuss the utility of this generic approach for probabilistic
+consequently suffer from inherently reduced sensitivity, especially at low 
+sequence coverage and for smaller SVs. We present a novel and extremely flexible 
+probabilistic SV discovery framework that is capable of integrating any 
+number of SV detection signals including those generated from read alignments 
+or prior evidence. We demonstrate improved sensitivity over extant methods by 
+combining paired-end and split-read alignments and emphasize the utility of 
+our framework for comprehensive studies of structural variation in 
+heterogeneous tumor genomes. We further discuss the utility of this generic 
+approach for probabilistic
 interpretation of diverse genomic data.
 
 
@@ -116,9 +120,10 @@ of relatively large (e.g., $>$100bp) segments. While SVs are considerably less
 common than smaller-scale forms of genetic variation such as single nucleotide
 polymorphisms (SNPs), they have much greater functional potential due to their
 larger size, and they have a greater ability to alter gene structure or dosage.
-Indeed, de novo SVs contribute to numerous sporadic human disorders, polymorphic
-SVs are increasingly found to be associated with common disease, and tumor
-``driver'' mutations often arise through gene amplification, deletion or fusion.
+Indeed, \emph{de novo} SVs contribute to numerous sporadic human disorders, 
+polymorphic SVs are increasingly found to be associated with common disease, 
+and tumor ``driver'' mutations often arise through gene amplification, 
+deletion or fusion.
 
 Our current understanding of the prevalence and impact of SV has
 been driven by recent advances in genome sequencing. However, the discovery and
@@ -129,7 +134,7 @@ presence of novel junctions (i.e., breakpoints) between the ``test'' and
 reference genomes. Moreover, SVs generate multiple alignment signals including
 altered sequence coverage within duplications or deletions (read-depth),
 breakpoint-spanning paired-end reads that align discordantly relative to each
-other (read-pair), and breakpoint-containing single reads that align in split
+other (paired-end), and breakpoint-containing single reads that align in split
 fashion to discontiguous loci in the reference genome (split-reads). These
 diverse alignment signals are difficult to integrate and most algorithms use
 just one. Other methods use two signals, but to our knowledge these limit
@@ -141,11 +146,11 @@ particularly acute in datasets with low genome coverage or in studies of
 heterogeneous cancer samples where any given rearrangement may only be present
 in a small subset of cells.
 
-Here, we present a novel probabilistic SV discovery framework that
-naturally integrates multiple SV detection signals, including those generated
-from read alignments or prior evidence, and that can readily adapt to any
-additional source of evidence that may become available with future
-technological advances. 
+% Here, we present a novel probabilistic SV discovery framework that
+% naturally integrates multiple SV detection signals, including those generated
+% from read alignments or prior evidence, and that can readily adapt to any
+% additional source of evidence that may become available with future
+% technological advances. 
 
 
 
@@ -154,13 +159,33 @@ technological advances.
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 
-In this manuscript, we describe a general probabilistic framework for 
-integrating diverse SV alignment signals from multiple sources. Our framework is
-motivated by the relatively poor sensitivity of SV discovery algorithms
-that utilize only one type of alignment signal. By providing a flexible 
-framework that can exploit \emph{all} alignment signals, we seek to improve 
-both discovery sensitivity and specificity and to increase the resolution of 
-predicted SV breakpoint regions.
+%In this manuscript, we describe a general probabilistic framework for 
+%integrating diverse SV alignment signals from multiple sources. Our framework is
+%motivated by the relatively poor sensitivity of SV discovery algorithms
+%that utilize only one type of alignment signal. By providing a flexible 
+%framework that can exploit \emph{all} alignment signals, we seek to improve 
+%both discovery sensitivity and specificity and to increase the resolution of 
+%predicted SV breakpoint regions.
+
+% ARQ: Merged last paragraph of intro with first paragraph of results.
+Here, we present a novel and general probabilistic SV discovery framework that
+naturally integrates multiple SV detection signals, including those generated
+from read alignments or prior evidence, and that can readily adapt to any
+additional source of evidence that may become available with future
+technological advances. Our framework is motivated by the relatively poor 
+sensitivity of SV discovery algorithms that utilize only one type of alignment 
+signal. By providing a flexible framework that can exploit \emph{all} alignment 
+signals, we seek to improve both discovery sensitivity and specificity and to 
+increase the resolution of predicted SV breakpoint regions.
+
+% In this manuscript, we describe a general probabilistic framework for 
+% integrating diverse SV alignment signals from multiple sources. Our framework is
+% motivated by the relatively poor sensitivity of SV discovery algorithms
+% that utilize only one type of alignment signal. By providing a flexible 
+% framework that can exploit \emph{all} alignment signals, we seek to improve 
+% both discovery sensitivity and specificity and to increase the resolution of 
+% predicted SV breakpoint regions.
+
 
 \subsection{Overview of the probabilistic framework}
 %1. Walk through the concept (use the high-level figure that Ryan is working on).
@@ -254,7 +279,7 @@ simulating 1000 deletions, duplications, insertions, and inversions
 using SVsim (Faust et al, \emph{in preparation}).  For each SV event type, half
 of the variants were less than 1kb and the other half were greater than 1kb (see
 Methods for details).  We used the WGSIM (Heng Li, unpublished) paired-end read 
-simulator to \"sequence\" the simulated genome to 2, 5, and 20 fold 
+simulator to ``sequence'' the simulated genome to 2, 5, and 20 fold 
 haploid coverage (Methods).
 
 \subsection{Discovery sensitivity}
@@ -274,16 +299,17 @@ coverage, whereas HYDRA, the next most sensitive approach, detects 2.9\% and
 \includegraphics[width=6.5in]{R/ss_sl_s-un_hy_gv_dl-r10x.eps}
 \caption{SV discovery sensitivity for LUMPY, HYDRA, GASVPRO, and DELLY for
 different SV types across multiple genome coverage levels. \emph{lumpy-pe} 
-reflects LUMPY sensitivity using paired-end alignments only; \emph{lumpy-sr} 
-reflects LUMPY sensitivity using split-read alignments only; \emph{lumpy} 
-describes sensitivity using both paired-end and split-read alignments; 
-\emph{delly-pe} reflects DELLY sensitivity using paired-end alignments only; 
-\emph{delly-sr} reflects DELLY sensitivity using both paired-end alignments 
-and split-read refinement of paired-end SV predictions.}
+reflects LUMPY sensitivity using \emph{only} paired-end alignments; 
+\emph{lumpy-sr} reflects LUMPY sensitivity using \emph{only} split-read 
+alignments; \emph{lumpy} describes sensitivity when integrating \emph{both} 
+paired-end and split-read alignments; \emph{delly-pe} reflects DELLY sensitivity 
+using paired-end alignments only; \emph{delly-sr} reflects DELLY sensitivity 
+using paired-end alignments for discovery followed by split-read refinement of 
+paired-end SV predictions.}
 \label{sensitivity:fig}
 \end{figure}
 
-At lower coverage (i.e., 2 and 5X), LUMPY is consistently more sensitive 
+At lower coverage (i.e., 2 and 5X), LUMPY's sensitivity is greater 
 than all other approaches across all SV types. At most, LUMPY was 
 8.4 times more sensitive than the second most sensitive approach at low 
 coverage (LUMPY 24.5\% vs. HYDRA 2.9\% for deletions at 2X coverage). At worst, 
@@ -391,7 +417,7 @@ sensitivity while maintaining low false discovery rates.
 \cline{1-13}
 lumpy-pe		&0.014&0.008&0&0.004&0	  &0    &0.042&0.016&0	  &0.004&0	  &0 \\
 lumpy-sr      &0.006&0	&0&0.005&0.003&0	&0.013&0.006&0	  &0.004&0.001&0 \\
-lumoy    &0.018&0.005&0&0.007&0.001&0	&0.05 &0.009&0	  &0.009&0.002&0 \\
+lumpy    &0.018&0.005&0&0.007&0.001&0	&0.05 &0.009&0	  &0.009&0.002&0 \\
 hydra   &0.038&0.006&0&0.03 &0.011&0	&0.089&0.034&0.03 &0.054&0.006&0 \\
 gasvpro	&0	  &0	&0&N/A  &N/A  &N/A  &0.242&0.065&0.041&0.005&0.082&0.079 \\
 delly-pe	&0.002&0	&0&0	&0	  &0.028&N/A  &N/A	&N/A  &0	&0	  &0 \\
@@ -402,22 +428,47 @@ delly-sr	&0	  &0	&0&0	&0	  &0	&N/A  &N/A	&N/A  &0.004&0	  &0 \\
 \end{table}
 
 
-\subsection{Increased breakpoint resolution}
-By integrating both paired-end and split-read SV signals, the resolution of
-our predicted breakpoint intervals is increased relative to the resolution 
-yielded by examining either signal on its own (Figure~\ref{resolution:fig}). 
-The biggest increase in resolution comes from split-read alignments, as, in
-principle, split-reads map SV breakpoints to a single base pair. In practice,
-however, there is often local alignment ambiguity at the breakpoint which
-reduces breakpoint resolution to 2-5bp~\cite{quinlan2010b}. Therefore, in order
-to capture all split-reads supporting a given breakpoint, we examine a
-``window'' surrounding a putative breakpoint (e.g. +/- 20bp). This allows
-greater \emph{discovery} sensitivity (i.e., more alignments are included) at the
-cost of slightly reduced breakpoint \emph{resolution}. Consequently, at 2X
-coverage, our combined deletion breakpoint resolution is 42bp. However, at 20X
-coverage, our resolution increases to 5bp. Importantly, the breakpoint
-resolution for all other SV types were nearly identical to resolution for
-deletions (data not shown).  
+\subsection{Increased power by integrating all signals for SV discovery}
+LUMPY's increased sensitivity is driven by the fact that both paired-end and 
+split-read signals are \emph{combined} during SV discovery. More generally,
+our framework is capable of pooling any number of signals in order to
+further increase sensitivity. To our knowledge,
+while other tools exploit multiple SV signals, they first exploit one signal to
+drive discovery and refine candidates with a second signal. An intrinsic 
+limitation of such stepwise approaches is other available signals cannot 
+increase the number of true positive SV calls beyond those
+candidates identified by the signal used for initial discovery. DELLY, 
+for example, uses split-read alignment strategies to refine candidate variants 
+identified via graph ``cliques'' of discordant paired-end 
+alignments\cite{rausch2012b}. As illustrated in Figure 2, DELLY's sensitivity 
+is \emph{reduced} when examining both SV signals in stepwise fashion, whereas 
+LUMPY's sensitivity increases when both signals are integrated. The impact on 
+sensitivity is especially dramatic at lower sequence depth: at 2X coverage, 
+DELLY's deletion sensitivity is reduced by 60\% (delly-pe v. delly-sr), 
+while LUMPY's sensitivity increased six-fold when integrating both signals.
+
+Furthermore, by integrating both signals, the resolution of our predicted 
+breakpoint intervals is increased relative to the resolution yielded by 
+examining either signal on its own. For example, at 20X coverage, deletion 
+breakpoints are refined to within a median of 5bp of the actual simulated 
+breakpoint using both signals. When paired-end alignments alone drive discovery, 
+our breakpoint resolution is reduced by more than 50 fold (median of 265bp) 
+and as expected, this increase in resolution is observed across all other SV 
+types (data not shown).  
+
+%(Figure~\ref{resolution:fig}). 
+% The biggest increase in resolution comes from split-read alignments, as, in
+% principle, split-reads map SV breakpoints to a single base pair. In practice,
+% however, there is often local alignment ambiguity at the breakpoint which
+% reduces breakpoint resolution to 2-5bp~\cite{quinlan2010b}. Therefore, in order
+% to capture all split-reads supporting a given breakpoint, we examine a
+% ``window'' surrounding a putative breakpoint (e.g. +/- 20bp). This allows
+% greater \emph{discovery} sensitivity (i.e., more alignments are included) at the
+% cost of slightly reduced breakpoint \emph{resolution}. Consequently, at 2X
+% coverage, our combined deletion breakpoint resolution is 42bp. However, at 20X
+% coverage, our resolution increases to 5bp. Importantly, the breakpoint
+% resolution for all other SV types were nearly identical to resolution for
+% deletions (data not shown).  
 
 %\begin{figure}
 %\center{
@@ -430,19 +481,19 @@ deletions (data not shown).
 
 
 
-\subsection{Benchmarks using 1000 Genomes datasets}
-\textbf{Speed with 1, 2, 3, ..., 10 samples.  How many events per sample?
-Need to use both PE and SR.}
-To assess the utility of our framework for SV discovery in typical human genome
-sequencing datasets, we combined whole-genome alignment signals from between 1 
-and 10 samples from the 1000 Genomes Project \cite{durbin2010}. The runtimes
-of our software ranged from X to Y minutes when exploring alignments from 1 and
-10 samples, respectively, and the maximal memory usage was Z, indicating that
-our framework provides improved SV discovery in reasonable time-frames using
-resources that are available in typical research computing environments. When
-combining alignments from all 10 samples, the median number of predicted SV
-breakpoints per sample was X, which is well in the range of SV 
-breakpoints for a typical human genome \cite{mills2011}.
+% \subsection{Benchmarks using 1000 Genomes datasets}
+% \textbf{Speed with 1, 2, 3, ..., 10 samples.  How many events per sample?
+% Need to use both PE and SR.}
+% To assess the utility of our framework for SV discovery in typical human genome
+% sequencing datasets, we combined whole-genome alignment signals from between 1 
+% and 10 samples from the 1000 Genomes Project \cite{durbin2010}. The runtimes
+% of our software ranged from X to Y minutes when exploring alignments from 1 and
+% 10 samples, respectively, and the maximal memory usage was Z, indicating that
+% our framework provides improved SV discovery in reasonable time-frames using
+% resources that are available in typical research computing environments. When
+% combining alignments from all 10 samples, the median number of predicted SV
+% breakpoints per sample was X, which is well in the range of SV 
+% breakpoints for a typical human genome \cite{mills2011}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -450,48 +501,85 @@ breakpoints for a typical human genome \cite{mills2011}.
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
 We have developed a general probabilistic framework for accurate SV discovery, 
-and we have demonstrated that our framework is more sensitive than existing 
+and have demonstrated that our framework is more sensitive than existing 
 discovery tools across all SV types and coverage levels. Importantly, the
 increased sensitivity does not come at the cost of excessive spurious SV
-predictions. While our FDR was slightly higher for deletions than other tools,
-we note that the integration of third-party copy-number predictions into
-our calling framework (using the generic subclasses, Figure 1) would bring our 
-deletion FDR to nearly zero.
+predictions. 
 
-A notable difference between the LUMPY framework and other tools that can
-incorporate multiple signals such as GASVPro (paired-end and read-depth) and
-DELLY (paired-end and split-read), is the point at which the second (or third)
-signal is considered. LUMPY pools all signals before making breakpoint
-predictions, while both GASVPro and DELLY consider signals in order; the
-paired-end signal is used to call breakpoints and the second signal refines
-those calls. An implication of ordered signal consideration is that the extra
-signals cannot increase the number of true positive predictions. In a case where
-evidence for a particular breakpoint exists in multiple signals, but not above
-some threshold in any one signal, ordered consideration can not combine those
-signals to make a true positive prediction. In contrast, when signals are pooled
-before predictions are made the amount of evidence for that breakpoint can meet
-the threshold. This is especially important for cases of low sequence coverage.
-Our simulation results showed that true positives for deletions at 2x coverage
-decreased by 60 percent when signals were ordered (from 45 in DELLY PE to 18 in
-DELLY SR), and increased over six fold when both signals were pooled (from 32 in
-LUMPY-PE and 39 in LUMPY-SR to 245 in LUMPY-PESR).
+Our framework represents an important technological advance, 
+especially in the context of cancer genomics where sensitivity is crucial to 
+understanding tumor evolution. While highly sensitive methods have been 
+developed for point mutations, similar sensitivity has been challenging for
+structural variation owing to the technical challenges inherent to 
+characterizing genomic rearrangements from DNA sequence alignments. Our 
+approach greatly simplifies the problem by providing a common framework for
+representing and integrating breakpoint likelihoods from any number of SV 
+alignment signals. Any signal can be integrated into our framework so long as 
+a breakpoint likelihood can be assigned to each base pair in a candidate 
+breakpoint region. The result is a dramatic increase in SV discovery sensitivity 
+and a corresponding increase in the resolution of the predicted breakpoint 
+interval. 
 
-\textbf{In this paragraph we want to 1. summarize why this is an advance for SV
-detection, with regards to sensitivity, high resolution breakpoint prediction,
-using all possible signals from current and future sequence data, and
-incorporating prior probability basied on external sources of evidence ; 2.
-point out how useful the lumpy framework is for integrating different types of
-genomic data (ChIP-seq, etc?). If we don't include point2, it needs to be
-removed from the abstract.}
+We emphasize that the framework's flexibility permits facile improvements to 
+sensitivity through the integration of alignment data from multiple samples 
+(e.g., tumors and matched normal tissue), as well sites of known rearrangement. 
+For example, while our FDR was slightly higher for deletions than other tools, 
+integrating third-party copy-number predictions into our calling framework 
+(using the generic breakpoint modules highlighted in Figure 1) would bring our 
+deletion FDR to nearly zero using a similar approach to that of GASVPro.
+
+Moreover, it is important to emphasize the broader potential implications for
+this probabilistic framework. The ability to assign and integrate
+likelihoods at base pair resolution from diverse data types is incredibly 
+useful for quantitative genomic assays such as ChIP-seq and RNA-seq. For 
+example, ChIP-seq peaks could be converted to probability distributions yielding
+a likelihood for each coordinate in the peak region. Once converted to 
+likelihood intervals, we envision the ability to integrate multiple assays
+in order to refine and compare functional predictions in a probabilistic manner
+by extending software packages such as our own BEDTools \cite{quinlan2010a}
+to leverage the presented framework probabilistic comparisons of genomic 
+intervals. We argue that such tools will empower large-scale functional 
+studies of genome biology such as ENCODE \cite{encode2012}. 
+
+\textbf{Need clever/elegant closing sentence or two.}
+
+%Given the increased sensitivity, efficiency, and ease of use of our framework, 
+%we emphasize its utility for comprehensive SV discovery in human genomes. 
+%Increased sensitivity is especially important for cancer studies, as tumors are 
+%often comprised of highly heterogeneous genomes. As we demonstrate clearly
+%superior sensitivity at low coverage (which is a proxy for low frequency 
+%rearrangements), we argue that our framework well-suited to detailed studies
+%	of tumor heterogeneity and somatic genome variability.\\
+
+%\textbf{In this paragraph we want to 1. summarize why this is an advance for SV
+%detection, with regards to sensitivity, high resolution breakpoint prediction,
+%using all possible signals from current and future sequence data, and
+%incorporating prior probability basied on external sources of evidence ; 2.
+%point out how useful the lumpy framework is for integrating different types of
+%genomic data (ChIP-seq, etc?). If we don't include point2, it needs to be
+%removed from the abstract.}
 
 
-Given the increased sensitivity, efficiency, and ease of use of our framework, 
-we emphasize its utility for comprehensive SV discovery in human genomes. 
-Increased sensitivity is especially important for cancer studies, as tumors are 
-often comprised of highly heterogeneous genomes. As we demonstrate clearly
-superior sensitivity at low coverage (which is a proxy for low frequency 
-rearrangements), we argue that our framework well-suited to detailed studies
-	of tumor heterogeneity and somatic genome variability.\\
+
+
+
+% A notable difference between the LUMPY framework and other tools that can
+% incorporate multiple signals such as GASVPro (paired-end and read-depth) and
+% DELLY (paired-end and split-read), is the point at which the second (or third)
+% signal is considered. LUMPY pools all signals before making breakpoint
+% predictions, while both GASVPro and DELLY consider signals in order; the
+% paired-end signal is used to call breakpoints and the second signal refines
+% those calls. An implication of ordered signal consideration is that the extra
+% signals cannot increase the number of true positive predictions. In a case where
+% evidence for a particular breakpoint exists in multiple signals, but not above
+% some threshold in any one signal, ordered consideration can not combine those
+% signals to make a true positive prediction. In contrast, when signals are pooled
+% before predictions are made the amount of evidence for that breakpoint can meet
+% the threshold. This is especially important for cases of low sequence coverage.
+% Our simulation results showed that true positives for deletions at 2x coverage
+% decreased by 60 percent when signals were ordered (from 45 in DELLY PE to 18 in
+% DELLY SR), and increased over six fold when both signals were pooled (from 32 in
+% LUMPY-PE and 39 in LUMPY-SR to 245 in LUMPY-PESR).
 
 
 

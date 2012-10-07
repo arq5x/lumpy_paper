@@ -26,7 +26,7 @@ par(
 		  0, #west
 		  0, #north
 		  0), #east
-	mar=c(0, #south
+	mar=c(.5, #south
 		  2.1, #west
 		  1, #north
 		  0), #east
